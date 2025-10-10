@@ -1,39 +1,56 @@
-// Ensure this runs only after PDF.js is loaded
-window.onload = () => {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+// PDF.js worker
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.9.179/pdf.worker.min.js";
 
-  const fileInput = document.getElementById('file-input');
-  const extractBtn = document.getElementById('extract-btn');
-  const output = document.getElementById('output');
-
-  extractBtn.addEventListener('click', async () => {
-    const files = fileInput.files;
-    output.textContent = 'Processing... Please wait.\n';
+async function extractText(files) {
+    const outputArea = document.getElementById("output");
+    outputArea.value = ""; // clear previous text
 
     for (let file of files) {
-      try {
-        output.textContent += `\nProcessing ${file.name}...\n`;
+        const ext = file.name.split('.').pop().toLowerCase();
 
-        if (file.type.includes('pdf')) {
-          const pdfData = await file.arrayBuffer();
-          const pdfDoc = await pdfjsLib.getDocument({data: pdfData}).promise;
+        if (ext === "pdf") {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+            let fullText = "";
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const textContent = await page.getTextContent();
+                textContent.items.forEach(item => fullText += item.str + " ");
+            }
+            outputArea.value += `\n\n--- ${file.name} ---\n` + fullText;
 
-          let text = '';
-          for (let i = 1; i <= pdfDoc.numPages; i++) {
-            const page = await pdfDoc.getPage(i);
-            const pageText = await page.getTextContent();
-            text += pageText.items.map(item => item.str).join(' ') + '\n';
-          }
-          output.textContent += `\n--- ${file.name} ---\n${text}`;
+        } else if (["png", "jpg", "jpeg"].includes(ext)) {
+            const text = await recognizeImage(file);
+            outputArea.value += `\n\n--- ${file.name} ---\n` + text;
+
         } else {
-          const result = await Tesseract.recognize(file, 'eng+hin');
-          output.textContent += `\n--- ${file.name} ---\n${result.data.text}`;
+            outputArea.value += `\n\n--- ${file.name} ---\nUnsupported file type`;
         }
-      } catch (err) {
-        output.textContent += `\nError processing ${file.name}: ${err.message || err}\n`;
-      }
     }
+}
 
-    output.textContent += '\n✅ All files processed';
-  });
-};
+function recognizeImage(file) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = function () {
+            const img = new Image();
+            img.src = reader.result;
+            img.onload = async function () {
+                const { data: { text } } = await Tesseract.recognize(img, 'eng+hin');
+                resolve(text);
+            }
+        }
+        reader.readAsDataURL(file);
+    });
+}
+
+window.onload = () => {
+    const fileInput = document.getElementById("fileInput");
+    const extractBtn = document.getElementById("extractBtn");
+
+    extractBtn.onclick = () => {
+        const files = fileInput.files;
+        if (files.length === 0) return alert("Please select files");
+        extractText(files);
+    }
+}
