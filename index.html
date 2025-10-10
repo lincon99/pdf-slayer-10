@@ -5,43 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PDF Slayer</title>
 
-  <!-- Google AdSense main script -->
+  <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2061223848415336"
      crossorigin="anonymous"></script>
 
-  <!-- Optional CSS -->
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
-    header, footer { background: #111; color: #fff; padding: 20px; text-align: center; }
-    main { padding: 20px; text-align: center; }
-    .ads { margin: 20px 0; }
-    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
-  </style>
+  <!-- Your CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
     <h1>PDF Slayer</h1>
-    <p>Extract text from PDFs instantly!</p>
   </header>
 
-  <!-- AdSense Ad #1 -->
-  <div class="ads">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-2061223848415336"
-         data-ad-slot="1234567890"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-  </div>
-
   <main>
-    <p>Upload your PDF and get text instantly:</p>
-    <input type="file" id="pdfInput">
-    <button onclick="alert('This is a placeholder for your OCR function')">Extract Text</button>
+    <section id="upload-section">
+      <input type="file" id="fileInput" accept=".pdf,.jpg,.png">
+      <button id="extractBtn">Extract Text</button>
+    </section>
+
+    <section id="result-section">
+      <h2>Extracted Text:</h2>
+      <textarea id="outputText" rows="10" cols="50" readonly></textarea>
+    </section>
   </main>
+
+  <!-- Your JS -->
+  <script src="script.js"></script>
+</body>
+</html>
 
   <!-- AdSense Ad #2 -->
   <div class="ads">
