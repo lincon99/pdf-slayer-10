@@ -1,122 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDF Slayer — OCR Tool</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF Slayer — AI OCR Tool | Free Text Extractor</title>
 
-<!-- Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2061223848415336"
- crossorigin="anonymous"></script>
+  <!-- ✅ Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2061223848415336"
+   crossorigin="anonymous"></script>
 
-<!-- Styles -->
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #111;
-    color: #fff;
-    margin: 0;
-    padding: 0;
-  }
-  .container {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #1a1a1a;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(255,0,0,0.5);
-  }
-  h1 {
-    color: #ff0000;
-    text-align: center;
-  }
-  input[type="file"] {
-    display: block;
-    margin: 20px auto;
-    padding: 10px;
-    border: 2px solid #ff0000;
-    border-radius: 5px;
-    background-color: #222;
-    color: #fff;
-  }
-  button {
-    display: block;
-    margin: 20px auto;
-    padding: 12px 25px;
-    background-color: #ff0000;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  button:hover {
-    background-color: #ff4d4d;
-  }
-  #output {
-    margin-top: 30px;
-    padding: 15px;
-    background-color: #222;
-    border-radius: 5px;
-    min-height: 150px;
-    white-space: pre-wrap;
-  }
-  .adsense {
-    margin-top: 30px;
-    text-align: center;
-  }
-  footer {
-    margin-top: 40px;
-    text-align: center;
-    color: #aaa;
-    font-size: 14px;
-  }
-  footer a {
-    color: #ff0000;
-    margin: 0 10px;
-    text-decoration: none;
-  }
-  footer a:hover {
-    text-decoration: underline;
-  }
-</style>
+  <!-- ✅ Meta Tags for SEO -->
+  <meta name="description" content="PDF Slayer is a free online OCR tool that extracts text from PDFs and images using AI. Fast, secure, and simple to use." />
+  <meta name="keywords" content="PDF text extractor, OCR tool, online OCR, PDF to text, image to text, free OCR" />
+  <meta name="author" content="PDF Slayer" />
+
+  <!-- ✅ Favicon -->
+  <link rel="icon" type="image/png" href="logo.png" />
+
+  <!-- ✅ Styles -->
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #0d0d0d;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background: #111;
+      padding: 20px 10px;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    }
+
+    header h1 {
+      color: #ff3c3c;
+      font-size: 2rem;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #1a1a1a;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+    }
+
+    input[type="file"] {
+      margin: 20px 0;
+      padding: 10px;
+      border: 2px solid #ff3c3c;
+      border-radius: 8px;
+      background: #222;
+      color: #fff;
+      width: 80%;
+      cursor: pointer;
+    }
+
+    button {
+      background: #ff3c3c;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #ff5c5c;
+    }
+
+    #output {
+      margin-top: 25px;
+      background: #222;
+      padding: 15px;
+      border-radius: 10px;
+      min-height: 120px;
+      text-align: left;
+      white-space: pre-wrap;
+    }
+
+    .adsense {
+      margin-top: 25px;
+    }
+
+    footer {
+      margin-top: 50px;
+      padding: 15px;
+      font-size: 14px;
+      color: #aaa;
+      background: #111;
+    }
+
+    footer a {
+      color: #ff3c3c;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>PDF Slayer — OCR Tool</h1>
+  <header>
+    <h1>PDF Slayer — Free OCR Tool</h1>
+  </header>
 
-  <input type="file" id="fileInput" multiple accept=".pdf,image/*">
-  <button id="extractBtn">Extract Text</button>
+  <div class="container">
+    <p>Extract text from PDF and image files instantly using AI OCR technology. 100% free and secure!</p>
 
-  <div id="output">Extracted text will appear here...</div>
+    <input type="file" id="fileInput" multiple accept=".pdf,image/*">
+    <button id="extractBtn">Extract Text</button>
 
-  <!-- Google AdSense Unit -->
-  <div class="adsense">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-2061223848415336"
-         data-ad-slot="9876543210"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    <div id="output">Your extracted text will appear here...</div>
+
+    <!-- ✅ Google AdSense Ad Unit -->
+    <div class="adsense">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-2061223848415336"
+           data-ad-slot="9876543210"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
   </div>
-</div>
 
-<footer>
-  <a href="privacy.html" target="_blank">Privacy Policy</a> |
-  <a href="terms.html" target="_blank">Terms & Conditions</a>
-</footer>
+  <footer>
+    <a href="privacy.html" target="_blank">Privacy Policy</a> |
+    <a href="terms.html" target="_blank">Terms & Conditions</a> |
+    <a href="mailto:contact@ocr-slayer.net">Contact</a>
+    <p>© 2025 PDF Slayer. All rights reserved.</p>
+  </footer>
 
-<!-- PDF.js & Tesseract.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.9.179/pdf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
+  <!-- ✅ Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.9.179/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
 
-<!-- Main script -->
-<script src="script.js"></script>
+  <!-- ✅ Main Script -->
+  <script src="script.js"></script>
 
 </body>
 </html>
