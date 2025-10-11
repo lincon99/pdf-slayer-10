@@ -1,133 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PDF Slayer — Ninja OCR</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF Slayer — OCR Tool</title>
 
 <!-- Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2061223848415336" crossorigin="anonymous"></script>
-
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2061223848415336"
+ crossorigin="anonymous"></script>
 
 <!-- Styles -->
 <style>
-  * {
-    box-sizing: border-box;
-  }
   body {
-    margin: 0;
-    font-family: 'Rajdhani', sans-serif;
-    background: radial-gradient(circle at center, #0a0a0a, #000);
+    font-family: Arial, sans-serif;
+    background-color: #111;
     color: #fff;
+    margin: 0;
+    padding: 0;
     overflow-x: hidden;
   }
 
-  .header {
-    text-align: center;
-    padding: 40px 10px;
+  /* Ninja Mist Animation Background */
+  body::before {
+    content: "";
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,0,0,0.05) 0%, transparent 70%);
+    animation: mist 10s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes mist {
+    0% { transform: translate(0,0) rotate(0deg); }
+    50% { transform: translate(20%,20%) rotate(180deg); }
+    100% { transform: translate(0,0) rotate(360deg); }
+  }
+
+  /* Ninja Logo */
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 40px;
+  }
+
+  .logo svg {
+    width: 60px;
+    height: 60px;
+    transform: rotate(-20deg);
+    filter: drop-shadow(0 0 6px red);
+    animation: slash 1.5s ease forwards;
+  }
+
+  @keyframes slash {
+    0% { transform: rotate(-90deg) scaleX(0); opacity: 0; }
+    50% { transform: rotate(-10deg) scaleX(1.2); opacity: 1; }
+    100% { transform: rotate(-20deg) scaleX(1); opacity: 1; }
+  }
+
+  .logo-text {
+    font-family: "Lucida Console", monospace;
+    font-size: 36px;
+    color: red;
+    text-shadow: 0 0 10px #ff0000;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { text-shadow: 0 0 10px #ff0000; }
+    50% { text-shadow: 0 0 25px #ff4d4d; }
+  }
+
+  /* Container */
+  .container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #1a1a1a;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(255,0,0,0.5);
     position: relative;
   }
 
-  .katana {
-    width: 180px;
-    animation: glow 3s infinite alternate;
-  }
-
-  @keyframes glow {
-    0% { filter: drop-shadow(0 0 5px red); }
-    100% { filter: drop-shadow(0 0 25px red); }
-  }
-
   h1 {
-    font-size: 2.8rem;
-    color: #ff2c2c;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    text-shadow: 0 0 15px red;
-  }
-
-  .container {
-    max-width: 900px;
-    margin: 20px auto 80px;
-    padding: 30px;
-    background-color: rgba(20, 20, 20, 0.95);
-    border: 2px solid red;
-    border-radius: 15px;
-    box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
+    color: #ff0000;
     text-align: center;
+    margin-bottom: 20px;
   }
 
   input[type="file"] {
     display: block;
     margin: 20px auto;
     padding: 12px;
-    border: 2px solid #ff2c2c;
-    border-radius: 6px;
-    background-color: #151515;
+    border: 2px solid #ff0000;
+    border-radius: 5px;
+    background-color: #222;
     color: #fff;
-    font-size: 1rem;
   }
 
   button {
-    background: linear-gradient(90deg, #ff0000, #800000);
-    border: none;
-    color: white;
-    font-weight: bold;
+    display: block;
+    margin: 20px auto;
     padding: 14px 30px;
-    border-radius: 8px;
+    background-color: #ff0000;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
     cursor: pointer;
-    font-size: 1.1rem;
     transition: all 0.3s;
+    box-shadow: 0 0 10px red;
+    position: relative;
+    overflow: hidden;
   }
+
+  button::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+    transform: rotate(45deg) scaleX(0);
+    transition: all 0.5s;
+  }
+
+  button:hover::before {
+    transform: rotate(45deg) scaleX(1);
+  }
+
   button:hover {
-    background: linear-gradient(90deg, #ff4d4d, #ff0000);
-    box-shadow: 0 0 15px red;
-    transform: scale(1.05);
+    background-color: #ff4d4d;
+    box-shadow: 0 0 20px red;
   }
 
   #output {
-    margin-top: 25px;
+    margin-top: 30px;
     padding: 20px;
-    min-height: 150px;
+    background-color: #222;
     border-radius: 8px;
-    background-color: #111;
-    color: #ddd;
+    min-height: 150px;
     white-space: pre-wrap;
-    text-align: left;
-  }
-
-  footer {
-    text-align: center;
-    margin-top: 60px;
-    color: #999;
-    font-size: 0.9rem;
-  }
-
-  footer a {
-    color: #ff2c2c;
-    text-decoration: none;
+    box-shadow: 0 0 10px #ff0000;
   }
 
   .adsense {
-    margin-top: 40px;
+    margin-top: 30px;
     text-align: center;
   }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Katana_icon.svg" class="katana" alt="Katana">
-  <h1>PDF Slayer — Ninja OCR</h1>
+<!-- Logo -->
+<div class="logo">
+  <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <!-- Katana blade -->
+    <path d="M20 490 L500 20" stroke="red" stroke-width="8" stroke-linecap="round"/>
+    <!-- Handle -->
+    <rect x="0" y="0" width="20" height="60" fill="black" rx="5" ry="5"/>
+  </svg>
+  <span class="logo-text">PDF Slayer</span>
 </div>
 
+<!-- Main Container -->
 <div class="container">
-  <p>Unleash your inner ninja — extract text from PDFs and images instantly.</p>
+  <h1>OCR Tool</h1>
 
   <input type="file" id="fileInput" multiple accept=".pdf,image/*">
-  <button id="extractBtn">⚔️ Extract Text</button>
+  <button id="extractBtn">Extract Text</button>
 
   <div id="output">Extracted text will appear here...</div>
 
@@ -145,10 +192,6 @@
   </div>
 </div>
 
-<footer>
-  <p>© 2025 PDF Slayer | <a href="privacy.html">Privacy Policy</a> | <a href="about.html">About</a></p>
-</footer>
-
 <!-- PDF.js & Tesseract.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
@@ -159,7 +202,7 @@ const extractBtn = document.getElementById('extractBtn');
 const output = document.getElementById('output');
 
 async function extractText(files) {
-  output.textContent = "Sharpening your katana...";
+  output.textContent = "Processing...";
   let finalText = '';
 
   for (const file of files) {
@@ -186,7 +229,7 @@ async function extractText(files) {
     }
   }
 
-  output.textContent = finalText || "No text extracted. Try again.";
+  output.textContent = finalText || "No text extracted.";
 }
 
 extractBtn.addEventListener('click', () => {
