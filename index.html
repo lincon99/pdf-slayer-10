@@ -17,96 +17,32 @@
     color: #fff;
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
   }
-
-  /* Ninja Mist Animation Background */
-  body::before {
-    content: "";
-    position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,0,0,0.05) 0%, transparent 70%);
-    animation: mist 10s linear infinite;
-    pointer-events: none;
-  }
-
-  @keyframes mist {
-    0% { transform: translate(0,0) rotate(0deg); }
-    50% { transform: translate(20%,20%) rotate(180deg); }
-    100% { transform: translate(0,0) rotate(360deg); }
-  }
-
-  /* Ninja Logo */
-  .logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 40px;
-  }
-
-  .logo svg {
-    width: 60px;
-    height: 60px;
-    transform: rotate(-20deg);
-    filter: drop-shadow(0 0 6px red);
-    animation: slash 1.5s ease forwards;
-  }
-
-  @keyframes slash {
-    0% { transform: rotate(-90deg) scaleX(0); opacity: 0; }
-    50% { transform: rotate(-10deg) scaleX(1.2); opacity: 1; }
-    100% { transform: rotate(-20deg) scaleX(1); opacity: 1; }
-  }
-
-  .logo-text {
-    font-family: "Lucida Console", monospace;
-    font-size: 36px;
-    color: red;
-    text-shadow: 0 0 10px #ff0000;
-    font-weight: bold;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { text-shadow: 0 0 10px #ff0000; }
-    50% { text-shadow: 0 0 25px #ff4d4d; }
-  }
-
-  /* Container */
   .container {
     max-width: 900px;
     margin: 40px auto;
-    padding: 30px;
+    padding: 20px;
     background-color: #1a1a1a;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(255,0,0,0.5);
-    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255,0,0,0.5);
   }
-
   h1 {
     color: #ff0000;
     text-align: center;
-    margin-bottom: 20px;
   }
-
   input[type="file"] {
     display: block;
     margin: 20px auto;
-    padding: 12px;
+    padding: 10px;
     border: 2px solid #ff0000;
     border-radius: 5px;
     background-color: #222;
     color: #fff;
   }
-
   button {
     display: block;
     margin: 20px auto;
-    padding: 14px 30px;
+    padding: 12px 25px;
     background-color: #ff0000;
     border: none;
     border-radius: 5px;
@@ -114,64 +50,42 @@
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s;
-    box-shadow: 0 0 10px red;
-    position: relative;
-    overflow: hidden;
   }
-
-  button::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
-    transform: rotate(45deg) scaleX(0);
-    transition: all 0.5s;
-  }
-
-  button:hover::before {
-    transform: rotate(45deg) scaleX(1);
-  }
-
   button:hover {
     background-color: #ff4d4d;
-    box-shadow: 0 0 20px red;
   }
-
   #output {
     margin-top: 30px;
-    padding: 20px;
+    padding: 15px;
     background-color: #222;
-    border-radius: 8px;
+    border-radius: 5px;
     min-height: 150px;
     white-space: pre-wrap;
-    box-shadow: 0 0 10px #ff0000;
   }
-
   .adsense {
     margin-top: 30px;
     text-align: center;
+  }
+  footer {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 14px;
+    color: #aaa;
+  }
+  footer a {
+    color: #ff0000;
+    text-decoration: none;
+    margin: 0 10px;
+  }
+  footer a:hover {
+    text-decoration: underline;
   }
 </style>
 </head>
 <body>
 
-<!-- Logo -->
-<div class="logo">
-  <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-    <!-- Katana blade -->
-    <path d="M20 490 L500 20" stroke="red" stroke-width="8" stroke-linecap="round"/>
-    <!-- Handle -->
-    <rect x="0" y="0" width="20" height="60" fill="black" rx="5" ry="5"/>
-  </svg>
-  <span class="logo-text">PDF Slayer</span>
-</div>
-
-<!-- Main Container -->
 <div class="container">
-  <h1>OCR Tool</h1>
+  <h1>PDF Slayer — OCR Tool</h1>
 
   <input type="file" id="fileInput" multiple accept=".pdf,image/*">
   <button id="extractBtn">Extract Text</button>
@@ -191,6 +105,10 @@
     </script>
   </div>
 </div>
+
+<footer>
+  <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+</footer>
 
 <!-- PDF.js & Tesseract.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
