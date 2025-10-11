@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDF Slayer — OCR Tool</title>
+<title>PDF Slayer — Free OCR & PDF Text Extractor</title>
 
 <!-- Google AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2061223848415336"
@@ -18,17 +18,31 @@
     margin: 0;
     padding: 0;
   }
+  header {
+    text-align: center;
+    padding: 30px 20px 10px;
+  }
+  header h1 {
+    color: #ff2c2c;
+    font-size: 2.2em;
+  }
+  header p {
+    color: #ccc;
+    font-size: 1.1em;
+    max-width: 700px;
+    margin: 10px auto;
+  }
   .container {
     max-width: 900px;
-    margin: 40px auto;
+    margin: 30px auto;
     padding: 20px;
     background-color: #1a1a1a;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(255,0,0,0.5);
   }
-  h1 {
-    color: #ff0000;
+  h2 {
     text-align: center;
+    color: #ff2c2c;
   }
   input[type="file"] {
     display: block;
@@ -66,12 +80,33 @@
     margin-top: 30px;
     text-align: center;
   }
+  footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #999;
+    font-size: 0.9em;
+  }
+  footer a {
+    color: #ff2c2c;
+    text-decoration: none;
+  }
+  footer a:hover {
+    text-decoration: underline;
+  }
 </style>
 </head>
 <body>
 
+<header>
+  <h1>PDF Slayer — Free PDF & Image Text Extractor</h1>
+  <p>
+    PDF Slayer is a powerful online OCR tool that extracts text from PDFs and images quickly and securely.
+    Your data stays private — all processing happens in your browser.
+  </p>
+</header>
+
 <div class="container">
-  <h1>PDF Slayer — OCR Tool</h1>
+  <h2>Extract Text Instantly</h2>
 
   <input type="file" id="fileInput" multiple accept=".pdf,image/*">
   <button id="extractBtn">Extract Text</button>
@@ -91,6 +126,22 @@
     </script>
   </div>
 </div>
+
+<section style="max-width:900px;margin:40px auto;padding:20px;color:#ccc;line-height:1.6;">
+  <h2 style="color:#ff2c2c;text-align:center;">Why Choose PDF Slayer?</h2>
+  <ul>
+    <li>⚡ Lightning-fast OCR powered by Tesseract.js</li>
+    <li>🔒 100% browser-based — no data ever uploaded</li>
+    <li>🧩 Works with PDFs, JPGs, PNGs, and more</li>
+    <li>💡 Free to use forever, no sign-up required</li>
+  </ul>
+</section>
+
+<footer>
+  © 2025 PDF Slayer | 
+  <a href="/privacy.html">Privacy Policy</a> | 
+  <a href="/about.html">About</a>
+</footer>
 
 <!-- PDF.js & Tesseract.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
