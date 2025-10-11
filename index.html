@@ -1,115 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDF Slayer — Free OCR & PDF Text Extractor</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PDF Slayer — Ninja OCR</title>
 
 <!-- Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2061223848415336"
- crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2061223848415336" crossorigin="anonymous"></script>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
 
 <!-- Styles -->
 <style>
+  * {
+    box-sizing: border-box;
+  }
   body {
-    font-family: Arial, sans-serif;
-    background-color: #111;
-    color: #fff;
     margin: 0;
-    padding: 0;
+    font-family: 'Rajdhani', sans-serif;
+    background: radial-gradient(circle at center, #0a0a0a, #000);
+    color: #fff;
+    overflow-x: hidden;
   }
-  header {
+
+  .header {
     text-align: center;
-    padding: 30px 20px 10px;
+    padding: 40px 10px;
+    position: relative;
   }
-  header h1 {
+
+  .katana {
+    width: 180px;
+    animation: glow 3s infinite alternate;
+  }
+
+  @keyframes glow {
+    0% { filter: drop-shadow(0 0 5px red); }
+    100% { filter: drop-shadow(0 0 25px red); }
+  }
+
+  h1 {
+    font-size: 2.8rem;
     color: #ff2c2c;
-    font-size: 2.2em;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px red;
   }
-  header p {
-    color: #ccc;
-    font-size: 1.1em;
-    max-width: 700px;
-    margin: 10px auto;
-  }
+
   .container {
     max-width: 900px;
-    margin: 30px auto;
-    padding: 20px;
-    background-color: #1a1a1a;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(255,0,0,0.5);
-  }
-  h2 {
+    margin: 20px auto 80px;
+    padding: 30px;
+    background-color: rgba(20, 20, 20, 0.95);
+    border: 2px solid red;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
     text-align: center;
-    color: #ff2c2c;
   }
+
   input[type="file"] {
     display: block;
     margin: 20px auto;
-    padding: 10px;
-    border: 2px solid #ff0000;
-    border-radius: 5px;
-    background-color: #222;
+    padding: 12px;
+    border: 2px solid #ff2c2c;
+    border-radius: 6px;
+    background-color: #151515;
     color: #fff;
+    font-size: 1rem;
   }
+
   button {
-    display: block;
-    margin: 20px auto;
-    padding: 12px 25px;
-    background-color: #ff0000;
+    background: linear-gradient(90deg, #ff0000, #800000);
     border: none;
-    border-radius: 5px;
-    color: #fff;
+    color: white;
     font-weight: bold;
+    padding: 14px 30px;
+    border-radius: 8px;
     cursor: pointer;
+    font-size: 1.1rem;
     transition: all 0.3s;
   }
   button:hover {
-    background-color: #ff4d4d;
+    background: linear-gradient(90deg, #ff4d4d, #ff0000);
+    box-shadow: 0 0 15px red;
+    transform: scale(1.05);
   }
+
   #output {
-    margin-top: 30px;
-    padding: 15px;
-    background-color: #222;
-    border-radius: 5px;
+    margin-top: 25px;
+    padding: 20px;
     min-height: 150px;
+    border-radius: 8px;
+    background-color: #111;
+    color: #ddd;
     white-space: pre-wrap;
+    text-align: left;
   }
-  .adsense {
-    margin-top: 30px;
-    text-align: center;
-  }
+
   footer {
     text-align: center;
-    padding: 30px 20px;
+    margin-top: 60px;
     color: #999;
-    font-size: 0.9em;
+    font-size: 0.9rem;
   }
+
   footer a {
     color: #ff2c2c;
     text-decoration: none;
   }
-  footer a:hover {
-    text-decoration: underline;
+
+  .adsense {
+    margin-top: 40px;
+    text-align: center;
   }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>PDF Slayer — Free PDF & Image Text Extractor</h1>
-  <p>
-    PDF Slayer is a powerful online OCR tool that extracts text from PDFs and images quickly and securely.
-    Your data stays private — all processing happens in your browser.
-  </p>
-</header>
+<div class="header">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Katana_icon.svg" class="katana" alt="Katana">
+  <h1>PDF Slayer — Ninja OCR</h1>
+</div>
 
 <div class="container">
-  <h2>Extract Text Instantly</h2>
+  <p>Unleash your inner ninja — extract text from PDFs and images instantly.</p>
 
   <input type="file" id="fileInput" multiple accept=".pdf,image/*">
-  <button id="extractBtn">Extract Text</button>
+  <button id="extractBtn">⚔️ Extract Text</button>
 
   <div id="output">Extracted text will appear here...</div>
 
@@ -127,20 +145,8 @@
   </div>
 </div>
 
-<section style="max-width:900px;margin:40px auto;padding:20px;color:#ccc;line-height:1.6;">
-  <h2 style="color:#ff2c2c;text-align:center;">Why Choose PDF Slayer?</h2>
-  <ul>
-    <li>⚡ Lightning-fast OCR powered by Tesseract.js</li>
-    <li>🔒 100% browser-based — no data ever uploaded</li>
-    <li>🧩 Works with PDFs, JPGs, PNGs, and more</li>
-    <li>💡 Free to use forever, no sign-up required</li>
-  </ul>
-</section>
-
 <footer>
-  © 2025 PDF Slayer | 
-  <a href="/privacy.html">Privacy Policy</a> | 
-  <a href="/about.html">About</a>
+  <p>© 2025 PDF Slayer | <a href="privacy.html">Privacy Policy</a> | <a href="about.html">About</a></p>
 </footer>
 
 <!-- PDF.js & Tesseract.js -->
@@ -153,7 +159,7 @@ const extractBtn = document.getElementById('extractBtn');
 const output = document.getElementById('output');
 
 async function extractText(files) {
-  output.textContent = "Processing...";
+  output.textContent = "Sharpening your katana...";
   let finalText = '';
 
   for (const file of files) {
@@ -180,7 +186,7 @@ async function extractText(files) {
     }
   }
 
-  output.textContent = finalText || "No text extracted.";
+  output.textContent = finalText || "No text extracted. Try again.";
 }
 
 extractBtn.addEventListener('click', () => {
