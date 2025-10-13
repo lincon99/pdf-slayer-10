@@ -2,25 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const fileInput = document.getElementById("fileInput");
   const extractBtn = document.getElementById("extractBtn");
   const output = document.getElementById("output");
-
-  // SINGLE progress bar
-  const progressContainer = document.createElement("div");
-  const progressBar = document.createElement("div");
-
-  progressContainer.style.width = "100%";
-  progressContainer.style.height = "8px";
-  progressContainer.style.backgroundColor = "#333";
-  progressContainer.style.borderRadius = "5px";
-  progressContainer.style.marginTop = "10px";
-
-  progressBar.style.width = "0%";
-  progressBar.style.height = "100%";
-  progressBar.style.backgroundColor = "#ff0000";
-  progressBar.style.borderRadius = "5px";
-  progressBar.style.transition = "width 0.3s ease";
-
-  progressContainer.appendChild(progressBar);
-  output.before(progressContainer);
+  const progressBar = document.getElementById("progressBar");
 
   extractBtn.addEventListener("click", async () => {
     const files = fileInput.files;
@@ -94,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
           },
         }).then(({ data: { text } }) => resolve(text));
       });
+
       fullText += `\n[Page ${i}]\n${text}`;
     }
 
