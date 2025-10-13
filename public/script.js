@@ -2,12 +2,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const fileInput = document.getElementById("fileInput");
   const extractBtn = document.getElementById("extractBtn");
   const output = document.getElementById("output");
-  const progressBar = document.getElementById("progress-bar");
 
-  function updateProgress(percent) {
-    if (percent > 100) percent = 100;
-    progressBar.style.width = percent + "%";
-  }
+  // Progress bar setup
+  const progressContainer = document.createElement("div");
+  progressContainer.style.width = "100%";
+  progressContainer.style.height = "8px";
+  progressContainer.style.backgroundColor = "#333";
+  progressContainer.style.borderRadius = "5px";
+  progressContainer.style.marginTop = "10px";
+
+  const progressBar = document.createElement("div");
+  progressBar.style.width = "0%";
+  progressBar.style.height = "100%";
+  progressBar.style.backgroundColor = "#ff0000";
+  progressBar.style.borderRadius = "5px";
+  progressBar.style.transition = "width 0.2s ease";
+
+  progressContainer.appendChild(progressBar);
+  output.before(progressContainer);
 
   extractBtn.addEventListener("click", async () => {
     const files = fileInput.files;
@@ -17,44 +29,50 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     output.textContent = "Extracting text... Please wait.";
-    updateProgress(5);
+    progressBar.style.width = "5%";
 
-    let totalFiles = files.length;
-    let currentFileIndex = 0;
+    const totalFiles = files.length;
+    let fileIndex = 0;
 
     for (const file of files) {
       const ext = file.name.split(".").pop().toLowerCase();
       let text = "";
 
       if (ext === "pdf") {
-        text = await extractTextFromPDF(file, currentFileIndex, totalFiles);
+        text = await extractTextFromPDF(file, fileIndex, totalFiles);
       } else if (["jpg", "jpeg", "png", "bmp"].includes(ext)) {
-        text = await extractTextFromImage(file, currentFileIndex, totalFiles);
+        text = await extractTextFromImage(file, fileIndex, totalFiles);
       } else {
         alert(`Unsupported file type: ${ext}`);
-        currentFileIndex++;
+        fileIndex++;
         continue;
       }
 
       output.textContent += `\n\n---- ${file.name} ----\n${text}`;
-      currentFileIndex++;
-      updateProgress((currentFileIndex / totalFiles) * 100);
+      fileIndex++;
+      updateProgress(((fileIndex / totalFiles) * 100));
     }
 
-    setTimeout(() => updateProgress(0), 1500);
+    updateProgress(100);
+    setTimeout(() => (progressBar.style.width = "0%"), 1500);
   });
+
+  function updateProgress(pct) {
+    progressBar.style.width = `${pct}%`;
+  }
 
   async function extractTextFromImage(file, fileIndex, totalFiles) {
     return new Promise((resolve) => {
       const reader = new FileReader();
       reader.onload = () => {
         Tesseract.recognize(reader.result, "eng+hin", {
-          logger: info => {
+          workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/worker.min.js',
+          logger: (info) => {
             if (info.status === "recognizing text") {
-              const pct = ((fileIndex + info.progress) / totalFiles) * 100;
+              const pct = Math.floor(((fileIndex + info.progress) / totalFiles) * 100);
               updateProgress(pct);
             }
-          }
+          },
         }).then(({ data: { text } }) => resolve(text));
       };
       reader.readAsDataURL(file);
@@ -70,20 +88,21 @@ document.addEventListener("DOMContentLoaded", () => {
       const page = await pdf.getPage(i);
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
-      const viewport = page.getViewport({ scale: 2.0 });
+      const viewport = page.getViewport({ scale: 1.5 }); // faster rendering
       canvas.height = viewport.height;
       canvas.width = viewport.width;
       await page.render({ canvasContext: context, viewport }).promise;
 
       const imageData = canvas.toDataURL("image/png");
-      const text = await new Promise(resolve => {
+      const text = await new Promise((resolve) => {
         Tesseract.recognize(imageData, "eng+hin", {
-          logger: info => {
+          workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/worker.min.js',
+          logger: (info) => {
             if (info.status === "recognizing text") {
-              const pct = ((fileIndex + (i - 1 + info.progress) / pdf.numPages) / totalFiles) * 100;
+              const pct = Math.floor(((fileIndex + (i-1)/pdf.numPages + info.progress/pdf.numPages) / totalFiles) * 100);
               updateProgress(pct);
             }
-          }
+          },
         }).then(({ data: { text } }) => resolve(text));
       });
 
