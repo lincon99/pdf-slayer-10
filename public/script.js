@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const extractBtn = document.getElementById("extractBtn");
   const output = document.getElementById("output");
 
-  // Progress bar setup
+  // Create a single progress bar
   const progressContainer = document.createElement("div");
   progressContainer.style.width = "100%";
   progressContainer.style.height = "8px";
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   progressBar.style.height = "100%";
   progressBar.style.backgroundColor = "#ff0000";
   progressBar.style.borderRadius = "5px";
-  progressBar.style.transition = "width 0.2s ease";
+  progressBar.style.transition = "width 0.2s ease-out"; // smoother
 
   progressContainer.appendChild(progressBar);
   output.before(progressContainer);
@@ -31,46 +31,40 @@ document.addEventListener("DOMContentLoaded", () => {
     output.textContent = "Extracting text... Please wait.";
     progressBar.style.width = "5%";
 
-    const totalFiles = files.length;
-    let fileIndex = 0;
-
     for (const file of files) {
-      const ext = file.name.split(".").pop().toLowerCase();
-      let text = "";
+      try {
+        const ext = file.name.split(".").pop().toLowerCase();
+        let text = "";
 
-      if (ext === "pdf") {
-        text = await extractTextFromPDF(file, fileIndex, totalFiles);
-      } else if (["jpg", "jpeg", "png", "bmp"].includes(ext)) {
-        text = await extractTextFromImage(file, fileIndex, totalFiles);
-      } else {
-        alert(`Unsupported file type: ${ext}`);
-        fileIndex++;
-        continue;
+        if (ext === "pdf") {
+          text = await extractTextFromPDF(file);
+        } else if (["jpg", "jpeg", "png", "bmp"].includes(ext)) {
+          text = await extractTextFromImage(file);
+        } else {
+          alert(`Unsupported file type: ${ext}`);
+          continue;
+        }
+
+        output.textContent += `\n\n---- ${file.name} ----\n${text}`;
+      } catch (err) {
+        output.textContent += `\n\n---- ${file.name} ----\nError extracting text: ${err.message}`;
+        console.error(err);
       }
-
-      output.textContent += `\n\n---- ${file.name} ----\n${text}`;
-      fileIndex++;
-      updateProgress(((fileIndex / totalFiles) * 100));
     }
 
-    updateProgress(100);
+    progressBar.style.width = "100%";
     setTimeout(() => (progressBar.style.width = "0%"), 1500);
   });
 
-  function updateProgress(pct) {
-    progressBar.style.width = `${pct}%`;
-  }
-
-  async function extractTextFromImage(file, fileIndex, totalFiles) {
+  async function extractTextFromImage(file) {
     return new Promise((resolve) => {
       const reader = new FileReader();
       reader.onload = () => {
         Tesseract.recognize(reader.result, "eng+hin", {
-          workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/worker.min.js',
           logger: (info) => {
             if (info.status === "recognizing text") {
-              const pct = Math.floor(((fileIndex + info.progress) / totalFiles) * 100);
-              updateProgress(pct);
+              const pct = Math.round(info.progress * 100);
+              progressBar.style.width = `${pct}%`;
             }
           },
         }).then(({ data: { text } }) => resolve(text));
@@ -79,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  async function extractTextFromPDF(file, fileIndex, totalFiles) {
+  async function extractTextFromPDF(file) {
     const pdfData = new Uint8Array(await file.arrayBuffer());
     const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
     let fullText = "";
@@ -88,23 +82,21 @@ document.addEventListener("DOMContentLoaded", () => {
       const page = await pdf.getPage(i);
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
-      const viewport = page.getViewport({ scale: 1.5 }); // faster rendering
-      canvas.height = viewport.height;
+      const viewport = page.getViewport({ scale: 2.0 });
       canvas.width = viewport.width;
+      canvas.height = viewport.height;
+
       await page.render({ canvasContext: context, viewport }).promise;
 
       const imageData = canvas.toDataURL("image/png");
-      const text = await new Promise((resolve) => {
-        Tesseract.recognize(imageData, "eng+hin", {
-          workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/worker.min.js',
-          logger: (info) => {
-            if (info.status === "recognizing text") {
-              const pct = Math.floor(((fileIndex + (i-1)/pdf.numPages + info.progress/pdf.numPages) / totalFiles) * 100);
-              updateProgress(pct);
-            }
-          },
-        }).then(({ data: { text } }) => resolve(text));
-      });
+      const text = await Tesseract.recognize(imageData, "eng+hin", {
+        logger: (info) => {
+          if (info.status === "recognizing text") {
+            const pct = Math.round((i - 1) / pdf.numPages * 100 + info.progress * (100 / pdf.numPages));
+            progressBar.style.width = `${pct}%`;
+          }
+        },
+      }).then(({ data: { text } }) => text);
 
       fullText += `\n[Page ${i}]\n${text}`;
     }
