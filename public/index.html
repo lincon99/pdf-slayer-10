@@ -9,7 +9,6 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2061223848415336"
  crossorigin="anonymous"></script>
 
-<!-- Styles -->
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -26,17 +25,10 @@
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(255,0,0,0.5);
   }
-  h1 {
-    color: #ff0000;
-    text-align: center;
-  }
-  p, ul {
-    line-height: 1.6;
-    margin-bottom: 15px;
-  }
-  ul li {
-    margin-left: 20px;
-  }
+  h1 { color: #ff0000; text-align: center; }
+  h2 { color: #ff4d4d; }
+  p, li { line-height: 1.6; }
+  ul { margin-left: 20px; }
   input[type="file"] {
     display: block;
     margin: 20px auto;
@@ -58,11 +50,9 @@
     cursor: pointer;
     transition: all 0.3s;
   }
-  button:hover {
-    background-color: #ff4d4d;
-  }
+  button:hover { background-color: #ff4d4d; }
   #output {
-    margin-top: 30px;
+    margin-top: 20px;
     padding: 15px;
     background-color: #222;
     border-radius: 5px;
@@ -83,24 +73,15 @@
     border-radius: 5px;
     transition: width 0.3s ease;
   }
-  .adsense {
-    margin-top: 30px;
-    text-align: center;
-  }
+  .adsense { text-align: center; margin: 30px 0; }
   footer {
     margin-top: 40px;
     text-align: center;
     color: #aaa;
     font-size: 14px;
   }
-  footer a {
-    color: #ff0000;
-    margin: 0 10px;
-    text-decoration: none;
-  }
-  footer a:hover {
-    text-decoration: underline;
-  }
+  footer a { color: #ff0000; margin: 0 10px; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -109,39 +90,34 @@
   <h1>PDF Slayer — Free OCR Tool</h1>
   <p>Extract text from PDF and image files instantly using AI OCR technology. 100% free and secure!</p>
 
+  <h2>How It Works</h2>
+  <p>Upload your PDF or image file below, click "Extract Text", and let the built-in OCR engine do the rest. A live red progress bar shows extraction progress, and extracted text appears instantly.</p>
+
+  <h2>Supported Formats & Languages</h2>
+  <ul>
+    <li>PDF, JPG, JPEG, PNG, BMP</li>
+    <li>Languages: English & Hindi</li>
+  </ul>
+
   <input type="file" id="fileInput" multiple accept=".pdf,image/*">
   <button id="extractBtn">Extract Text</button>
-
-  <div class="progress-container"><div id="progressBar" class="progress-bar"></div></div>
   <div id="output">Extracted text will appear here...</div>
+  <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
 
   <div class="adsense">
-    <!-- AdSense Unit -->
     <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-2061223848415336"
          data-ad-slot="9876543210"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
-  <h2>About PDF Slayer</h2>
-  <p><strong>PDF Slayer</strong> is a free, browser-based OCR (Optical Character Recognition) tool designed to help users extract editable text from PDF and image files instantly — with support for both English and Hindi languages.</p>
-  <p>Our mission is to make document digitization easy and accessible for everyone, whether you’re a student, professional, or researcher. PDF Slayer runs entirely in your browser, meaning your files never leave your device. This ensures full privacy, security, and speed.</p>
-  <h3>Why Choose PDF Slayer?</h3>
-  <ul>
-    <li>✅ Fast and secure local processing (no uploads)</li>
-    <li>✅ Supports Hindi and English text extraction</li>
-    <li>✅ Works on PDFs and common image formats (JPG, PNG, BMP)</li>
-    <li>✅ 100% Free with no sign-up required</li>
-  </ul>
-  <h3>Our Vision</h3>
-  <p>We believe that powerful tools should be simple, secure, and free to use. PDF Slayer will continue improving its recognition accuracy and adding language support to make it useful for users across the world.</p>
+  <h2>Privacy & Security</h2>
+  <p>All files are processed locally in your browser — nothing is uploaded. Your data is completely private and secure.</p>
 
-  <p>Have questions or suggestions? Reach out at <a href="mailto:contact@pdfslayer.com" style="color:#ff4d4d;">contact@pdfslayer.com</a></p>
+  <p style="text-align:center;">Have questions or suggestions? Reach out at <a href="mailto:contact@pdfslayer.com" style="color:#ff4d4d;">contact@pdfslayer.com</a></p>
 </div>
 
 <footer>
@@ -150,10 +126,8 @@
   <a href="terms.html">Terms & Conditions</a>
 </footer>
 
-<!-- PDF.js & Tesseract.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.9.179/pdf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
 <script src="script.js"></script>
-
 </body>
 </html>

@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     output.textContent = "Extracting text... Please wait.";
-    progressBar.style.width = "5%";
+    progressBar.style.width = "0%";
 
     for (const file of files) {
       const ext = file.name.split(".").pop().toLowerCase();
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (ext === "pdf") {
         text = await extractTextFromPDF(file);
-      } else if (["jpg", "jpeg", "png", "bmp"].includes(ext)) {
+      } else if (["jpg","jpeg","png","bmp"].includes(ext)) {
         text = await extractTextFromImage(file);
       } else {
         alert(`Unsupported file type: ${ext}`);
@@ -41,10 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
         Tesseract.recognize(reader.result, "eng+hin", {
           logger: (info) => {
             if (info.status === "recognizing text") {
-              const pct = Math.round(info.progress * 100);
-              progressBar.style.width = `${pct}%`;
+              progressBar.style.width = `${Math.round(info.progress*100)}%`;
             }
-          },
+          }
         }).then(({ data: { text } }) => resolve(text));
       };
       reader.readAsDataURL(file);
@@ -66,20 +65,17 @@ document.addEventListener("DOMContentLoaded", () => {
       await page.render({ canvasContext: context, viewport }).promise;
 
       const imageData = canvas.toDataURL("image/png");
-      const text = await new Promise((resolve) => {
-        Tesseract.recognize(imageData, "eng+hin", {
-          logger: (info) => {
-            if (info.status === "recognizing text") {
-              const pct = Math.round((i / pdf.numPages) * info.progress * 100);
-              progressBar.style.width = `${pct}%`;
-            }
-          },
-        }).then(({ data: { text } }) => resolve(text));
-      });
+      const text = await Tesseract.recognize(imageData, "eng+hin", {
+        logger: (info) => {
+          if (info.status === "recognizing text") {
+            const pct = Math.round((i/pdf.numPages)*info.progress*100);
+            progressBar.style.width = `${pct}%`;
+          }
+        }
+      }).then(({ data: { text } }) => text);
 
       fullText += `\n[Page ${i}]\n${text}`;
     }
-
     return fullText;
   }
 });
