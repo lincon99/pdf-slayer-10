@@ -2,24 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const fileInput = document.getElementById("fileInput");
   const extractBtn = document.getElementById("extractBtn");
   const output = document.getElementById("output");
-  const progressBar = document.createElement("div");
-  const progressContainer = document.createElement("div");
-
-  // Add progress bar elements dynamically
-  progressContainer.style.width = "100%";
-  progressContainer.style.height = "8px";
-  progressContainer.style.backgroundColor = "#333";
-  progressContainer.style.borderRadius = "5px";
-  progressContainer.style.marginTop = "10px";
-
-  progressBar.style.width = "0%";
-  progressBar.style.height = "100%";
-  progressBar.style.backgroundColor = "#ff0000";
-  progressBar.style.borderRadius = "5px";
-  progressBar.style.transition = "width 0.3s ease";
-
-  progressContainer.appendChild(progressBar);
-  output.before(progressContainer);
+  const progressBar = document.getElementById("progressBar"); // Use existing one in HTML
 
   extractBtn.addEventListener("click", async () => {
     const files = fileInput.files;
@@ -28,10 +11,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    output.textContent = "Extracting text... Please wait.";
-    progressBar.style.width = "5%";
+    output.textContent = "";
+    progressBar.style.width = "0%";
 
-    for (const file of files) {
+    const totalFiles = files.length;
+    for (let idx = 0; idx < totalFiles; idx++) {
+      const file = files[idx];
       const ext = file.name.split(".").pop().toLowerCase();
       let text = "";
 
@@ -45,10 +30,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       output.textContent += `\n\n---- ${file.name} ----\n${text}`;
-    }
 
-    progressBar.style.width = "100%";
-    setTimeout(() => (progressBar.style.width = "0%"), 1500);
+      // Update progress bar based on file count
+      progressBar.style.width = `${Math.round(((idx + 1) / totalFiles) * 100)}%`;
+    }
   });
 
   async function extractTextFromImage(file) {
@@ -93,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
           },
         }).then(({ data: { text } }) => resolve(text));
       });
+
       fullText += `\n[Page ${i}]\n${text}`;
     }
 
