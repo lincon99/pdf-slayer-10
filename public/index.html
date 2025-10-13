@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PDF Slayer — Free OCR for PDF & Images</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF Slayer — OCR Tool</title>
 
 <!-- Google AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2061223848415336"
@@ -30,8 +30,11 @@
     color: #ff0000;
     text-align: center;
   }
-  p {
-    line-height: 1.6;
+  .subtitle {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #aaa;
   }
   input[type="file"] {
     display: block;
@@ -57,27 +60,27 @@
   button:hover {
     background-color: #ff4d4d;
   }
+  #progress-container {
+    width: 100%;
+    height: 8px;
+    background-color: #333;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  #progress-bar {
+    width: 0%;
+    height: 100%;
+    background-color: #ff0000;
+    border-radius: 5px;
+    transition: width 0.3s ease;
+  }
   #output {
-    margin-top: 30px;
+    margin-top: 20px;
     padding: 15px;
     background-color: #222;
     border-radius: 5px;
     min-height: 150px;
     white-space: pre-wrap;
-  }
-  .progress-container {
-    width: 80%;
-    margin: 10px auto;
-    height: 8px;
-    background: #333;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .progress-bar {
-    width: 0;
-    height: 100%;
-    background: red;
-    transition: width 0.3s ease;
   }
   .adsense {
     margin-top: 30px;
@@ -102,35 +105,18 @@
 <body>
 
 <div class="container">
-  <h1>PDF Slayer — Free OCR Tool</h1>
-  <p style="text-align:center;font-size:16px;">
-    Extract text from PDF and image files instantly using AI OCR technology. 100% free and secure!
-  </p>
+  <h1>PDF Slayer — OCR Tool</h1>
+  <div class="subtitle">Extract text from PDF and image files instantly using AI OCR technology. 100% free and secure!</div>
 
-  <section>
-    <h2 style="color:#ff4d4d;">About PDF Slayer</h2>
-    <p>PDF Slayer is a fast and secure Optical Character Recognition (OCR) tool that extracts text from scanned PDFs and images directly in your browser. It supports both English and Hindi languages with high accuracy. No upload to external servers — all processing happens locally, ensuring your privacy and data safety.</p>
-
-    <h2 style="color:#ff4d4d;">How It Works</h2>
-    <p>Simply upload your PDF or image file below, click "Extract Text", and let the built-in AI OCR engine do the rest. A red progress bar shows live progress as your file is processed, and the extracted text appears instantly below.</p>
-
-    <h2 style="color:#ff4d4d;">Supported Formats</h2>
-    <p>PDF, JPG, JPEG, PNG, and BMP formats are supported. You can copy, edit, or save your extracted text freely for reports, assignments, or documentation work.</p>
-  </section>
-
-  <input type="file" id="fileInput" multiple accept=".pdf,image/*" />
+  <input type="file" id="fileInput" multiple accept=".pdf,image/*">
   <button id="extractBtn">Extract Text</button>
 
-  <div class="progress-container">
-    <div id="progressBar" class="progress-bar"></div>
-  </div>
-
+  <div id="progress-container"><div id="progress-bar"></div></div>
   <div id="output">Extracted text will appear here...</div>
 
   <div class="adsense">
-    <!-- AdSense Unit -->
     <ins class="adsbygoogle"
-         style="display:block;margin:auto;"
+         style="display:block"
          data-ad-client="ca-pub-2061223848415336"
          data-ad-slot="9876543210"
          data-ad-format="auto"
@@ -142,18 +128,15 @@
 </div>
 
 <footer>
-  <a href="about.html" target="_blank">About</a> |
   <a href="privacy.html" target="_blank">Privacy Policy</a> |
-  <a href="terms.html" target="_blank">Terms & Conditions</a> |
-  <a href="mailto:contact@pdfslayer.com">Contact</a>
+  <a href="terms.html" target="_blank">Terms & Conditions</a>
 </footer>
-
 
 <!-- PDF.js & Tesseract.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.9.179/pdf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
 
-<!-- Main Script -->
+<!-- Main script -->
 <script src="script.js"></script>
 
 </body>
