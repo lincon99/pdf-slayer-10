@@ -3,130 +3,49 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDF Slayer — Free OCR Text Extractor (English & Hindi)</title>
+<title>PDF Slayer — Free OCR Tool</title>
+<meta name="description" content="PDF Slayer — Extract text from PDF and image files instantly using AI OCR technology. Supports English and Hindi. Free & secure!">
 
 <!-- Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2061223848415336"
- crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2061223848415336" crossorigin="anonymous"></script>
 
-<!-- Styles -->
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #111;
-    color: #fff;
-    margin: 0;
-    padding: 0;
-  }
-  .container {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #1a1a1a;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(255,0,0,0.5);
-  }
-  h1 {
-    color: #ff4d4d;
-    text-align: center;
-  }
-  p {
-    line-height: 1.6;
-    text-align: center;
-  }
-  .intro {
-    margin-bottom: 25px;
-  }
-  input[type="file"] {
-    display: block;
-    margin: 20px auto;
-    padding: 10px;
-    border: 2px solid #ff0000;
-    border-radius: 5px;
-    background-color: #222;
-    color: #fff;
-  }
-  button {
-    display: block;
-    margin: 20px auto;
-    padding: 12px 25px;
-    background-color: #ff0000;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  button:hover {
-    background-color: #ff4d4d;
-  }
-  #output {
-    margin-top: 30px;
-    padding: 15px;
-    background-color: #222;
-    border-radius: 5px;
-    min-height: 150px;
-    white-space: pre-wrap;
-  }
-  footer {
-    margin-top: 40px;
-    text-align: center;
-    color: #aaa;
-    font-size: 14px;
-  }
-  footer a {
-    color: #ff4d4d;
-    margin: 0 10px;
-    text-decoration: none;
-  }
-  footer a:hover {
-    text-decoration: underline;
-  }
-  .progress-container {
-    width: 100%;
-    height: 8px;
-    background-color: #333;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-top: 10px;
-  }
-  .progress-bar {
-    height: 100%;
-    width: 0%;
-    background-color: #ff0000;
-    transition: width 0.2s ease-in-out;
-  }
+  body { font-family: Arial, sans-serif; background-color: #111; color: #fff; margin:0; padding:0; }
+  .container { max-width:900px; margin:40px auto; padding:20px; background:#1a1a1a; border-radius:10px; box-shadow:0 0 15px rgba(255,0,0,0.5); }
+  h1 { color:#ff0000; text-align:center; }
+  p { text-align:center; font-size:16px; margin-bottom:20px; }
+  input[type="file"] { display:block; margin:20px auto; padding:10px; border:2px solid #ff0000; border-radius:5px; background:#222; color:#fff; }
+  button { display:block; margin:20px auto; padding:12px 25px; background:#ff0000; border:none; border-radius:5px; color:#fff; font-weight:bold; cursor:pointer; transition:all 0.3s; }
+  button:hover { background:#ff4d4d; }
+  #output { margin-top:30px; padding:15px; background:#222; border-radius:5px; min-height:150px; white-space:pre-wrap; }
+  .adsense { margin-top:30px; text-align:center; }
+  footer { margin-top:40px; text-align:center; color:#aaa; font-size:14px; }
+  footer a { color:#ff0000; margin:0 10px; text-decoration:none; }
+  footer a:hover { text-decoration:underline; }
+  .progress-container { width:100%; height:8px; background:#333; border-radius:5px; margin-top:10px; }
+  .progress-bar { width:0%; height:100%; background:#ff0000; border-radius:5px; transition:width 0.2s linear; }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <section class="intro">
-    <h1>PDF Slayer — Free OCR Text Extractor</h1>
-    <p>Extract text from PDF and image files instantly using AI OCR technology. 100% free, private, and secure — supports both English and Hindi.</p>
-    <p>PDF Slayer is a fast and secure Optical Character Recognition (OCR) tool that extracts text from scanned PDFs and images directly in your browser. It keeps your data private — no uploads, no tracking, just instant results.</p>
-    <p>Simply upload your file, click “Extract Text”, and our AI engine will convert your document into editable text. Ideal for students, researchers, and professionals alike.</p>
-  </section>
+  <h1>PDF Slayer — Free OCR Tool</h1>
+  <p>Extract text from PDF and image files instantly using AI OCR technology. 100% free and secure!</p>
 
   <input type="file" id="fileInput" multiple accept=".pdf,image/*">
   <button id="extractBtn">Extract Text</button>
 
+  <div id="output">Extracted text will appear here...</div>
   <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
 
-  <div id="output">Extracted text will appear here...</div>
-
-  <!-- AdSense Unit (below main content) -->
-  <div class="adsense" style="margin-top:30px; text-align:center;">
+  <div class="adsense">
     <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-2061223848415336"
          data-ad-slot="9876543210"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 </div>
 
@@ -135,10 +54,8 @@
   <a href="privacy.html">Privacy Policy</a> |
   <a href="terms.html">Terms & Conditions</a> |
   <a href="mailto:contact@pdfslayer.com">Contact</a>
-  <p>© 2025 PDF Slayer — Free Online OCR Tool. All rights reserved.</p>
 </footer>
 
-<!-- PDF.js & Tesseract.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.9.179/pdf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
 <script src="script.js"></script>
