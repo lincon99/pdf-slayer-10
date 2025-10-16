@@ -1,106 +1,88 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const fileInput = document.getElementById("fileInput");
-  const extractBtn = document.getElementById("extractBtn");
-  const output = document.getElementById("output");
+// PDF Slayer - AI OCR (English + Hindi)
+// Fast, secure, and local (no uploads)
 
-  // Create a single progress bar
-  const progressContainer = document.createElement("div");
-  progressContainer.style.width = "100%";
-  progressContainer.style.height = "8px";
-  progressContainer.style.backgroundColor = "#333";
-  progressContainer.style.borderRadius = "5px";
-  progressContainer.style.marginTop = "10px";
+const fileInput = document.getElementById('fileInput');
+const extractBtn = document.getElementById('extractBtn');
+const output = document.getElementById('output');
+const progressBar = document.getElementById('progressBar');
 
-  const progressBar = document.createElement("div");
+async function extractText() {
+  const files = fileInput.files;
+  if (!files.length) {
+    alert('Please select a PDF or image file first.');
+    return;
+  }
+
+  output.textContent = "Processing... Please wait.";
   progressBar.style.width = "0%";
-  progressBar.style.height = "100%";
-  progressBar.style.backgroundColor = "#ff0000";
-  progressBar.style.borderRadius = "5px";
-  progressBar.style.transition = "width 0.2s ease-out"; // smoother
 
-  progressContainer.appendChild(progressBar);
-  output.before(progressContainer);
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const text = await processFile(file, i, files.length);
+    output.textContent += `\n\n--- File ${i + 1} ---\n${text}\n`;
+  }
 
-  extractBtn.addEventListener("click", async () => {
-    const files = fileInput.files;
-    if (!files.length) {
-      alert("Please select a PDF or image file first.");
-      return;
-    }
+  progressBar.style.width = "100%";
+  setTimeout(() => (progressBar.style.width = "0%"), 1000);
+}
 
-    output.textContent = "Extracting text... Please wait.";
-    progressBar.style.width = "5%";
+async function processFile(file, index, total) {
+  const fileType = file.type;
+  if (fileType.includes('pdf')) {
+    return await extractFromPDF(file, index, total);
+  } else if (fileType.includes('image')) {
+    return await extractFromImage(file, index, total);
+  } else {
+    return "Unsupported file type.";
+  }
+}
 
-    for (const file of files) {
-      try {
-        const ext = file.name.split(".").pop().toLowerCase();
-        let text = "";
+async function extractFromPDF(file, index, total) {
+  const pdf = await pdfjsLib.getDocument(await file.arrayBuffer()).promise;
+  let fullText = '';
 
-        if (ext === "pdf") {
-          text = await extractTextFromPDF(file);
-        } else if (["jpg", "jpeg", "png", "bmp"].includes(ext)) {
-          text = await extractTextFromImage(file);
-        } else {
-          alert(`Unsupported file type: ${ext}`);
-          continue;
-        }
+  for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+    const page = await pdf.getPage(pageNum);
+    const viewport = page.getViewport({ scale: 2 });
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
 
-        output.textContent += `\n\n---- ${file.name} ----\n${text}`;
-      } catch (err) {
-        output.textContent += `\n\n---- ${file.name} ----\nError extracting text: ${err.message}`;
-        console.error(err);
+    await page.render({ canvasContext: ctx, viewport }).promise;
+
+    const pageText = await runOCR(canvas);
+    fullText += `\n[Page ${pageNum}]\n${pageText}\n`;
+
+    updateProgress((pageNum / pdf.numPages) * ((index + 1) / total) * 100);
+  }
+
+  return fullText.trim();
+}
+
+async function extractFromImage(file, index, total) {
+  const img = document.createElement('img');
+  img.src = URL.createObjectURL(file);
+  await img.decode();
+  const text = await runOCR(img);
+  updateProgress(((index + 1) / total) * 100);
+  return text.trim();
+}
+
+async function runOCR(imageOrCanvas) {
+  const result = await Tesseract.recognize(imageOrCanvas, 'eng+hin', {
+    logger: (info) => {
+      if (info.status === 'recognizing text') {
+        const progress = Math.round(info.progress * 100);
+        progressBar.style.width = `${progress}%`;
       }
-    }
-
-    progressBar.style.width = "100%";
-    setTimeout(() => (progressBar.style.width = "0%"), 1500);
+    },
   });
+  return result.data.text;
+}
 
-  async function extractTextFromImage(file) {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        Tesseract.recognize(reader.result, "eng+hin", {
-          logger: (info) => {
-            if (info.status === "recognizing text") {
-              const pct = Math.round(info.progress * 100);
-              progressBar.style.width = `${pct}%`;
-            }
-          },
-        }).then(({ data: { text } }) => resolve(text));
-      };
-      reader.readAsDataURL(file);
-    });
-  }
+function updateProgress(percent) {
+  progressBar.style.width = `${Math.min(100, percent)}%`;
+}
 
-  async function extractTextFromPDF(file) {
-    const pdfData = new Uint8Array(await file.arrayBuffer());
-    const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
-    let fullText = "";
-
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
-      const viewport = page.getViewport({ scale: 2.0 });
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-
-      await page.render({ canvasContext: context, viewport }).promise;
-
-      const imageData = canvas.toDataURL("image/png");
-      const text = await Tesseract.recognize(imageData, "eng+hin", {
-        logger: (info) => {
-          if (info.status === "recognizing text") {
-            const pct = Math.round((i - 1) / pdf.numPages * 100 + info.progress * (100 / pdf.numPages));
-            progressBar.style.width = `${pct}%`;
-          }
-        },
-      }).then(({ data: { text } }) => text);
-
-      fullText += `\n[Page ${i}]\n${text}`;
-    }
-
-    return fullText;
-  }
-});
+extractBtn.addEventListener('click', extractText);
