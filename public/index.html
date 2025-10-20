@@ -1,18 +1,48 @@
-We found some policy violations
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF Slayer — Free Online OCR Tool</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.9.179/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>PDF Slayer — Free OCR Tool</h1>
+    <p>Extract text from PDFs and images locally in your browser. Supports English & Hindi. Fast, secure, and free!</p>
 
-Make sure that your site follows the AdSense programme policies. After you've fixed the violation, you can request a review of your site.
-Google-served ads on screens without publisher content
-We do not allow Google-served ads on screens:
+    <input type="file" id="fileInput" multiple accept=".pdf,image/*">
+    <button id="extractBtn">Extract Text</button>
 
-without content or with low value content,
-that are under construction,
-that are used for alerts, navigation or other behavioural purposes.
-Learn more about Google-served ads on screens without publisher-content.
+    <div id="output">Extracted text will appear here...</div>
 
-For more information, review the following resources:
+    <div id="progressContainer">
+      <div id="progressBar"></div>
+    </div>
 
-Policy tips for creating high quality sites (part 1)
-Policy tips for creating high quality sites (part 2)
-Webmaster quality guidelines
-AdSense programme policies
-AdMob policies and restrictions
+    <div class="adsense">
+      <!-- AdSense Unit -->
+      <ins class="adsbygoogle"
+           style="display:block;margin:auto;"
+           data-ad-client="ca-pub-2061223848415336"
+           data-ad-slot="9876543210"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  </div>
+
+  <footer>
+    <a href="about.html">About</a> |
+    <a href="privacy.html">Privacy Policy</a> |
+    <a href="terms.html">Terms & Conditions</a> |
+    <a href="mailto:contact@pdfslayer.com">Contact</a>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

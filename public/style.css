@@ -1,101 +1,185 @@
-﻿:root {
-  --bg: #0a0a0a;
-  --glass: rgba(255,255,255,0.04);
+﻿/* -----------------------------
+   Variables for dark glass theme
+----------------------------- */
+:root {
+  --bg: rgba(15, 15, 15, 0.95);
+  --glass: rgba(255, 255, 255, 0.04);
   --glass-blur: 12px;
   --accent1: #ff3b3b;
-  --accent2: #ff8a00;
+  --accent2: #ff6b6b;
+  --muted: #bdbdbd;
   --radius: 14px;
   --max-width: 980px;
-  --mobile-padding: 18px;
+  --mobile-padding: 20px;
 }
 
-* { box-sizing: border-box; }
-
-body {
+/* -----------------------------
+   Reset and basics
+----------------------------- */
+* {
+  box-sizing: border-box;
   margin: 0;
-  font-family: 'Inter', Arial, sans-serif;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   background: var(--bg);
   color: #eee;
-  display: flex;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 40px 20px;
+  line-height: 1.6;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* -----------------------------
+   Container & content cards
+----------------------------- */
 .container {
   max-width: var(--max-width);
-  width: 100%;
-  backdrop-filter: blur(var(--glass-blur));
+  margin: 40px auto;
+  padding: 30px;
   background: var(--glass);
+  backdrop-filter: blur(var(--glass-blur));
   border-radius: var(--radius);
-  padding: 40px;
-  box-shadow: 0 0 20px rgba(255,0,0,0.3);
+  box-shadow: 0 0 20px rgba(255, 59, 59, 0.3);
 }
 
-h1 { text-align: center; color: var(--accent1); }
-h2 { color: var(--accent2); margin-top: 20px; }
-p, li { line-height: 1.6; font-size: 1rem; }
-ul { list-style: disc; padding-left: 20px; }
-
-input[type="file"] {
-  display: block;
-  margin: 20px auto;
-  padding: 12px;
-  border-radius: var(--radius);
-  border: 2px solid var(--accent1);
-  background-color: #222;
-  color: #fff;
+/* -----------------------------
+   Headings
+----------------------------- */
+h1, h2, h3 {
+  text-align: center;
+  color: var(--accent1);
+  margin-bottom: 20px;
 }
 
+h2 {
+  color: var(--accent2);
+}
+
+/* -----------------------------
+   Buttons
+----------------------------- */
 button {
-  display: block;
-  margin: 20px auto;
-  padding: 12px 25px;
-  border-radius: var(--radius);
-  border: none;
+  display: inline-block;
+  padding: 12px 30px;
+  margin: 10px 0;
   font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  background: linear-gradient(45deg, var(--accent1), var(--accent2));
+  font-size: 16px;
   color: #fff;
-  box-shadow: 0 0 15px var(--accent1);
+  background: linear-gradient(135deg, var(--accent1), var(--accent2));
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 59, 59, 0.5);
   transition: all 0.3s ease;
 }
 
 button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 25px var(--accent2);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 59, 59, 0.6);
 }
 
+/* -----------------------------
+   File input
+----------------------------- */
+input[type="file"] {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 15px 0;
+  border-radius: var(--radius);
+  border: 2px solid var(--accent1);
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* -----------------------------
+   Output textarea / pre
+----------------------------- */
+textarea, #output, pre {
+  width: 100%;
+  padding: 20px;
+  margin: 15px 0;
+  border-radius: var(--radius);
+  border: none;
+  background: rgba(255,255,255,0.05);
+  color: #eee;
+  font-family: 'Courier New', monospace;
+  max-height: 400px;
+  overflow: auto;
+  resize: none;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+/* -----------------------------
+   Progress bar
+----------------------------- */
 #progressContainer {
   width: 100%;
   height: 8px;
-  background: #333;
-  border-radius: 5px;
-  overflow: hidden;
+  background: rgba(255,255,255,0.05);
+  border-radius: var(--radius);
   margin-top: 10px;
+  overflow: hidden;
 }
+
 #progressBar {
-  height: 100%;
   width: 0%;
+  height: 100%;
   background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  border-radius: var(--radius);
   transition: width 0.3s ease;
 }
 
-footer {
-  margin-top: 40px;
+/* -----------------------------
+   Adsense block
+----------------------------- */
+.adsense {
+  margin: 30px 0;
   text-align: center;
-  color: #aaa;
-  font-size: 14px;
 }
+
+/* -----------------------------
+   Footer
+----------------------------- */
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: auto;
+  padding: 20px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
 footer a {
   color: var(--accent1);
-  margin: 0 8px;
   text-decoration: none;
+  margin: 0 10px;
+  transition: all 0.3s;
 }
-footer a:hover { text-decoration: underline; }
 
-@media(max-width:600px){
-  .container { padding: 20px; }
-  button { width: 90%; }
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* -----------------------------
+   Responsive
+----------------------------- */
+@media (max-width: 768px) {
+  .container {
+    padding: var(--mobile-padding);
+    margin: 20px;
+  }
+  button, input[type="file"] {
+    font-size: 14px;
+    padding: 10px;
+  }
 }
