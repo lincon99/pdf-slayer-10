@@ -1,8 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
   const fileInput = document.getElementById("fileInput");
   const extractBtn = document.getElementById("extractBtn");
-  const progressBar = document.getElementById("progressBar");
   const output = document.getElementById("output");
+  const progressBar = document.getElementById("progressBar");
+  const copyBtn = document.getElementById("copyBtn");
+  const downloadBtn = document.getElementById("downloadBtn");
 
   extractBtn.addEventListener("click", async () => {
     const files = fileInput.files;
@@ -14,24 +16,27 @@ document.addEventListener("DOMContentLoaded", () => {
     output.textContent = "Extracting text... Please wait.";
     progressBar.style.width = "5%";
 
+    let allText = "";
+
     for (const file of files) {
       const ext = file.name.split(".").pop().toLowerCase();
       let text = "";
 
       if (ext === "pdf") {
         text = await extractTextFromPDF(file);
-      } else if (["jpg", "jpeg", "png", "bmp"].includes(ext)) {
+      } else if (["jpg","jpeg","png","bmp"].includes(ext)) {
         text = await extractTextFromImage(file);
       } else {
         alert(`Unsupported file type: ${ext}`);
         continue;
       }
 
-      output.textContent += `\n\n---- ${file.name} ----\n${text}`;
+      allText += `\n\n---- ${file.name} ----\n${text}`;
     }
 
+    output.textContent = allText || "No text extracted.";
     progressBar.style.width = "100%";
-    setTimeout(() => (progressBar.style.width = "0%"), 1500);
+    setTimeout(() => progressBar.style.width = "0%", 1500);
   });
 
   async function extractTextFromImage(file) {
@@ -39,12 +44,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const reader = new FileReader();
       reader.onload = () => {
         Tesseract.recognize(reader.result, "eng+hin", {
-          logger: (info) => {
+          logger: info => {
             if (info.status === "recognizing text") {
               progressBar.style.width = `${Math.round(info.progress * 100)}%`;
             }
-          },
-        }).then(({ data: { text } }) => resolve(text.trim()));
+          }
+        }).then(({ data: { text } }) => resolve(text));
       };
       reader.readAsDataURL(file);
     });
@@ -57,28 +62,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
     for (let i = 1; i <= pdf.numPages; i++) {
       const page = await pdf.getPage(i);
-      const viewport = page.getViewport({ scale: 1.5 });
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
+      const viewport = page.getViewport({ scale: 2.0 });
       canvas.width = viewport.width;
       canvas.height = viewport.height;
-
       await page.render({ canvasContext: context, viewport }).promise;
 
       const imageData = canvas.toDataURL("image/png");
-      const pageText = await new Promise((resolve) => {
-        Tesseract.recognize(imageData, "eng+hin", {
-          logger: (info) => {
-            if (info.status === "recognizing text") {
-              const pct = ((i - 1 + info.progress) / pdf.numPages) * 100;
-              progressBar.style.width = `${Math.round(pct)}%`;
-            }
-          },
-        }).then(({ data: { text } }) => resolve(text.trim()));
-      });
-      fullText += `\n[Page ${i}]\n${pageText}`;
+      const text = await Tesseract.recognize(imageData, "eng+hin", {
+        logger: info => {
+          if (info.status === "recognizing text") {
+            const pct = Math.round((i-1 + info.progress)/pdf.numPages*100);
+            progressBar.style.width = `${pct}%`;
+          }
+        }
+      }).then(({ data: { text } }) => text);
+
+      fullText += `\n[Page ${i}]\n${text}`;
     }
 
     return fullText;
   }
+
+  copyBtn.addEventListener("click", () => {
+    navigator.clipboard.writeText(output.textContent);
+    alert("Text copied to clipboard!");
+  });
+
+  downloadBtn.addEventListener("click", () => {
+    const blob = new Blob([output.textContent], { type: "text/plain" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "extracted_text.txt";
+    a.click();
+  });
 });
