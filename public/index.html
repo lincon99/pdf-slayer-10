@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PDF Slayer — Free OCR Tool</title>
 
 <!-- Google AdSense -->
@@ -11,20 +11,21 @@
 
 <!-- Styles -->
 <style>
-body { font-family: Arial, sans-serif; background:#111; color:#fff; margin:0; padding:0; }
-.container { max-width:900px; margin:40px auto; padding:20px; background:#1a1a1a; border-radius:10px; box-shadow:0 0 15px rgba(255,0,0,0.5); }
-h1,h2 { color:#ff0000; text-align:center; }
-p, li { line-height:1.6; margin-bottom:10px; }
-ul { margin-left:20px; }
-footer { margin-top:40px; text-align:center; color:#aaa; font-size:14px; }
-footer a { color:#ff0000; margin:0 10px; text-decoration:none; }
-footer a:hover { text-decoration:underline; }
-input[type="file"] { display:block; margin:20px auto; }
-button { display:block; margin:10px auto; padding:10px 20px; font-size:16px; cursor:pointer; background:#ff0000; color:#fff; border:none; border-radius:5px; }
-#output { white-space: pre-wrap; margin-top:20px; background:#222; padding:15px; border-radius:5px; max-height:400px; overflow:auto; }
-#progress-container { width:100%; height:8px; background:#333; border-radius:5px; margin-top:10px; }
-#progress-bar { width:0%; height:100%; background:#ff0000; border-radius:5px; transition: width 0.1s linear; }
-section { margin-top:30px; }
+  body { font-family: Arial, sans-serif; background-color: #111; color: #fff; margin: 0; padding: 0; }
+  .container { max-width: 900px; margin: 40px auto; padding: 20px; background-color: #1a1a1a; border-radius: 10px; box-shadow: 0 0 15px rgba(255,0,0,0.5);}
+  h1 { color: #ff0000; text-align: center; }
+  h2 { color: #ff4d4d; margin-top: 30px; }
+  p, ul { line-height: 1.6; margin-bottom: 15px; }
+  ul { padding-left: 20px; }
+  li { margin-bottom: 10px; }
+  input[type="file"] { display: block; margin: 20px auto; padding: 10px; border: 2px solid #ff0000; border-radius: 5px; background-color: #222; color: #fff; }
+  button { display: block; margin: 20px auto; padding: 12px 25px; background-color: #ff0000; border: none; border-radius: 5px; color: #fff; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+  button:hover { background-color: #ff4d4d; }
+  #output { margin-top: 30px; padding: 15px; background-color: #222; border-radius: 5px; min-height: 150px; white-space: pre-wrap; }
+  .adsense { margin-top: 30px; text-align: center; }
+  footer { margin-top: 40px; text-align: center; color: #aaa; font-size: 14px; }
+  footer a { color: #ff0000; margin: 0 10px; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -33,77 +34,77 @@ section { margin-top:30px; }
   <h1>PDF Slayer — Free OCR Tool</h1>
   <p>Extract text from PDF and image files instantly using AI OCR technology. 100% free and secure!</p>
 
-  <!-- OCR Upload Section -->
   <input type="file" id="fileInput" multiple accept=".pdf,image/*">
   <button id="extractBtn">Extract Text</button>
+
   <div id="output">Extracted text will appear here...</div>
-  
-  <!-- Red Progress Bar -->
-  <div id="progress-container">
-      <div id="progress-bar"></div>
+
+  <!-- Google AdSense: Below File Upload -->
+  <div class="adsense">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-2061223848415336"
+         data-ad-slot="9876543210"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
-  <!-- AdSense Block -->
-  <div class="adsense" style="margin:30px 0; text-align:center;">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-2061223848415336"
-           data-ad-slot="9876543210"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  <!-- About PDF Slayer -->
+  <h2>About PDF Slayer</h2>
+  <p>PDF Slayer is a free, browser-based OCR (Optical Character Recognition) tool designed to help users extract editable text from PDF and image files instantly — with support for both English and Hindi languages. Our mission is to make document digitization easy and accessible for everyone, whether you’re a student, professional, or researcher. PDF Slayer runs entirely in your browser, meaning your files never leave your device. This ensures full privacy, security, and speed.</p>
+
+  <h2>Why Choose PDF Slayer?</h2>
+  <ul>
+    <li>✅ Fast and secure local processing (no uploads)</li>
+    <li>✅ Supports Hindi and English text extraction</li>
+    <li>✅ Works on PDFs and common image formats (JPG, PNG, BMP)</li>
+    <li>✅ 100% Free with no sign-up required</li>
+  </ul>
+
+  <h2>Our Vision</h2>
+  <p>We believe that powerful tools should be simple, secure, and free to use. PDF Slayer will continue improving its recognition accuracy and adding language support to make it useful for users across the world.</p>
+
+  <h2>Features</h2>
+  <p>PDF Slayer allows users to extract editable text from scanned PDFs and images directly in their browser without relying on external servers. Multi-page PDFs and multiple image formats are supported. The tool uses advanced AI OCR technology to deliver accurate results, even for low-quality scans. Extracted text appears instantly below the OCR area.</p>
+
+  <!-- Google AdSense: Below Features -->
+  <div class="adsense">
+    <ins class="adsbygoogle"
+         style="display:block;margin:auto;"
+         data-ad-client="ca-pub-2061223848415336"
+         data-ad-slot="9876543210"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
-  <!-- Main Content Sections -->
-  <section id="about">
-    <h2>About PDF Slayer</h2>
-    <p>PDF Slayer is a free, browser-based OCR tool designed to extract editable text from PDFs and images instantly — supporting both English and Hindi.</p>
-    <p>Our mission is to make document digitization easy and accessible. PDF Slayer runs entirely in your browser, ensuring files never leave your device, maintaining full privacy and speed.</p>
-  </section>
+  <h2>Recognition Languages</h2>
+  <p>Supports English and Hindi. Handles Devanagari and Latin scripts accurately. Ideal for multilingual documents, academic research, business reports, and personal records.</p>
 
-  <section id="features">
-    <h2>Features</h2>
-    <ul>
-      <li>Instant text extraction directly in browser</li>
-      <li>Supports multi-page PDFs and common image formats (JPG, PNG, BMP)</li>
-      <li>Accurate OCR with AI engine even on low-resolution images</li>
-      <li>Free with no registration required</li>
-    </ul>
-  </section>
+  <h2>Input File Formats</h2>
+  <p>Supports PDF, JPG, JPEG, PNG, BMP. Multi-page PDFs fully supported. Upload one or multiple files and click "Extract Text".</p>
 
-  <section id="languages">
-    <h2>Recognition Languages</h2>
-    <p>Supports English and Hindi. Handles complex fonts, mixed languages, and multi-size text, making it suitable for academic, professional, and personal use.</p>
-  </section>
+  <h2>Output File Formats</h2>
+  <p>Extracted text is instantly displayed below the OCR area. Copy, edit, or save it in plain text for reports, assignments, or documentation work.</p>
 
-  <section id="input-formats">
-    <h2>Input File Formats</h2>
-    <p>Upload PDFs, JPG, JPEG, PNG, and BMP. Multi-page PDFs are fully supported. Select file(s) and click "Extract Text" to start OCR.</p>
-  </section>
+  <h2>How to Use PDF Slayer</h2>
+  <ol>
+    <li>Select a PDF or image file from your computer.</li>
+    <li>Click the “Extract Text” button to start OCR processing.</li>
+    <li>Watch the smooth red progress bar as text is extracted in real-time.</li>
+    <li>Copy the extracted text or save it for later use.</li>
+  </ol>
 
-  <section id="output-formats">
-    <h2>Output File Formats</h2>
-    <p>The extracted text appears instantly below. Copy, edit, or save in TXT format for reports, assignments, or documentation.</p>
-  </section>
+  <h2>Why Use PDF Slayer?</h2>
+  <p>Fast, secure, browser-based, free OCR with multi-page support and two major languages (English & Hindi). Files never leave your device, ensuring privacy.</p>
 
-  <section id="how-to-use">
-    <h2>How to Use PDF Slayer</h2>
-    <ol>
-      <li>Select PDF or image file from your computer</li>
-      <li>Click "Extract Text"</li>
-      <li>Watch the red progress bar as text is extracted</li>
-      <li>Copy or save the extracted text</li>
-    </ol>
-  </section>
-
-  <section id="faq">
-    <h2>FAQ</h2>
-    <p><strong>Q1:</strong> Is PDF Slayer free?<br>Yes, completely free with no registration.</p>
-    <p><strong>Q2:</strong> Multi-page PDFs supported?<br>Yes, fully supported.</p>
-    <p><strong>Q3:</strong> Other languages?<br>Currently English & Hindi only.</p>
-    <p><strong>Q4:</strong> Are files uploaded to server?<br>No, processed locally in browser.</p>
-    <p><strong>Q5:</strong> Supported formats?<br>PDF, JPG, JPEG, PNG, BMP.</p>
-  </section>
+  <h2>FAQ</h2>
+  <p>Q1: Is PDF Slayer free to use? Yes, 100% free, no registration.</p>
+  <p>Q2: Can I extract text from multi-page PDFs? Yes, fully supported.</p>
+  <p>Q3: Does it support other languages? Currently English & Hindi.</p>
+  <p>Q4: Are my files uploaded to a server? No, processed locally in browser.</p>
+  <p>Q5: Supported file formats? PDF, JPG, JPEG, PNG, BMP.</p>
 </div>
 
 <footer>
@@ -113,9 +114,9 @@ section { margin-top:30px; }
   <a href="mailto:contact@pdfslayer.com">Contact</a>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist/build/pdf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+<!-- PDF.js & Tesseract.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.9.179/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
 <script src="script.js"></script>
-
 </body>
 </html>
