@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Slayer - Extract Text from PDFs</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="favicon.ico">
+
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.10.141/pdf.min.js"></script>
+    <!-- Tesseract.js -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
 </head>
 <body>
     <header>
@@ -15,31 +19,33 @@
             <a href="about.html">About</a>
             <a href="privacy.html">Privacy</a>
             <a href="terms.html">Terms</a>
-            <a href="contact.html">Contact</a>
         </nav>
     </header>
 
+    <!-- AdSense Placeholder Top -->
+    <div class="ad-space" id="ad-top">Your Ad Here</div>
+
     <main>
-        <section class="upload-section">
-            <h2>Upload your PDFs</h2>
-            <input type="file" id="fileInput" multiple accept="application/pdf">
-            <button id="extractBtn">Extract Text</button>
-            <div id="progressContainer">
-                <div id="progressBar"></div>
+        <section class="tool-section">
+            <h2>Extract Text from PDFs</h2>
+            <p>Select one or multiple PDF files (scanned or digital):</p>
+            <input type="file" id="pdf-input" accept=".pdf" multiple>
+            <button id="extract-btn">Extract Text</button>
+            <div id="progress-container">
+                <div id="progress-bar"></div>
             </div>
-            <pre id="output"></pre>
+            <h3>Extracted Text:</h3>
+            <textarea id="output" rows="15" readonly></textarea>
         </section>
+
+        <!-- AdSense Placeholder Bottom -->
+        <div class="ad-space" id="ad-bottom">Your Ad Here</div>
     </main>
 
     <footer>
         <p>&copy; 2025 PDF Slayer. All rights reserved.</p>
     </footer>
 
-    <!-- PDF.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.10.141/pdf.min.js"></script>
-    <!-- Tesseract.js -->
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
-    <!-- Your custom script -->
     <script src="script.js"></script>
 </body>
 </html>

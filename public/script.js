@@ -1,61 +1,54 @@
-const fileInput = document.getElementById('fileInput');
-const extractBtn = document.getElementById('extractBtn');
+const pdfInput = document.getElementById('pdf-input');
+const extractBtn = document.getElementById('extract-btn');
 const output = document.getElementById('output');
-const progressBar = document.getElementById('progressBar');
+const progressBar = document.getElementById('progress-bar');
 
 extractBtn.addEventListener('click', async () => {
-    const files = fileInput.files;
+    const files = pdfInput.files;
     if (!files.length) {
-        alert("Please select at least one PDF file.");
+        alert('Please select at least one PDF file.');
         return;
     }
 
-    output.textContent = '';
+    output.value = '';
     progressBar.style.width = '0%';
 
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        output.textContent += `\n--- Extracting from: ${file.name} ---\n`;
+        output.value += `Processing: ${file.name}\n\n`;
 
         const arrayBuffer = await file.arrayBuffer();
-        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
 
-        let fullText = '';
+        try {
+            // Try PDF.js for digital text extraction
+            const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+            let text = '';
+            for (let j = 1; j <= pdf.numPages; j++) {
+                const page = await pdf.getPage(j);
+                const content = await page.getTextContent();
+                text += content.items.map(item => item.str).join(' ') + '\n';
+            }
 
-        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-            const page = await pdf.getPage(pageNum);
-
-            // Try extracting text normally
-            const textContent = await page.getTextContent();
-            const pageText = textContent.items.map(item => item.str).join(' ');
-
-            if (pageText.trim().length > 0) {
-                fullText += pageText + '\n';
+            if (text.trim()) {
+                output.value += text + '\n----------------------\n';
             } else {
-                // Page is likely scanned, use OCR
-                const viewport = page.getViewport({ scale: 2 });
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d');
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
-
-                await page.render({ canvasContext: context, viewport: viewport }).promise;
-
-                const { data: { text } } = await Tesseract.recognize(canvas, 'eng', {
+                // Use OCR if no text found (scanned PDF)
+                output.value += 'No text detected. Running OCR...\n';
+                const { data } = await Tesseract.recognize(arrayBuffer, 'eng', {
                     logger: m => {
                         if (m.status === 'recognizing text') {
-                            progressBar.style.width = `${Math.round((i + m.progress) / files.length * 100)}%`;
+                            const progress = Math.round(m.progress * 100);
+                            progressBar.style.width = `${progress}%`;
                         }
                     }
                 });
-
-                fullText += text + '\n';
+                output.value += data.text + '\n----------------------\n';
             }
+        } catch (err) {
+            output.value += `Error processing ${file.name}: ${err.message}\n----------------------\n`;
         }
-
-        output.textContent += fullText;
-        progressBar.style.width = `${Math.round((i + 1) / files.length * 100)}%`;
     }
 
-    alert("Text extraction completed!");
+    progressBar.style.width = '100%';
+    alert('Extraction complete!');
 });
