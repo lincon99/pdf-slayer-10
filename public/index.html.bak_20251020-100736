@@ -1,151 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PDF Slayer — Free Online OCR Tool</title>
-
-<!-- Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2061223848415336"
- crossorigin="anonymous"></script>
-
-<!-- Styles -->
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #111;
-    color: #fff;
-    margin: 0;
-    padding: 0;
-  }
-  .container {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #1a1a1a;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(255,0,0,0.5);
-  }
-  h1 {
-    color: #ff0000;
-    text-align: center;
-  }
-  p {
-    line-height: 1.6;
-    margin-bottom: 15px;
-  }
-  input[type="file"] {
-    display: block;
-    margin: 20px auto;
-    padding: 10px;
-    border: 2px solid #ff0000;
-    border-radius: 5px;
-    background-color: #222;
-    color: #fff;
-  }
-  button {
-    display: block;
-    margin: 20px auto;
-    padding: 12px 25px;
-    background-color: #ff0000;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  button:hover {
-    background-color: #ff4d4d;
-  }
-  #output {
-    margin-top: 30px;
-    padding: 15px;
-    background-color: #222;
-    border-radius: 5px;
-    min-height: 150px;
-    white-space: pre-wrap;
-  }
-  .adsense {
-    margin-top: 30px;
-    text-align: center;
-  }
-  footer {
-    margin-top: 40px;
-    text-align: center;
-    color: #aaa;
-    font-size: 14px;
-  }
-  footer a {
-    color: #ff0000;
-    margin: 0 10px;
-    text-decoration: none;
-  }
-  footer a:hover {
-    text-decoration: underline;
-  }
-  .content-block {
-    margin: 20px 0;
-    line-height: 1.6;
-    text-align: justify;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF Slayer AI – Smart OCR in Your Browser</title>
+  <meta name="description" content="Extract editable text from PDFs & images instantly using AI. Fast, private, and supports English and Hindi." />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="icon" href="https://img.icons8.com/fluency/48/ocr.png" />
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    .gradient-text {
+      background: linear-gradient(90deg, #3b82f6, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .upload-box {
+      border: 2px dashed #3b82f6;
+      border-radius: 1rem;
+      transition: all 0.3s;
+    }
+    .upload-box:hover {
+      background-color: #eff6ff;
+      transform: scale(1.02);
+    }
+    .dark body {
+      background-color: #0f172a;
+      color: #f1f5f9;
+    }
+  </style>
 </head>
-<body>
 
-<div class="container">
-  <h1>PDF Slayer — Free OCR Tool</h1>
+<body class="bg-gray-50 text-gray-800 transition duration-500">
 
-  <!-- AdSense-friendly content block -->
-  <div class="content-block">
-    <p>
-      PDF Slayer is a free, browser-based OCR (Optical Character Recognition) tool that lets you extract editable text from PDF and image files instantly. 
-      Supports English and Hindi languages with high accuracy. 
-      No uploads — all processing happens locally in your browser, ensuring privacy and speed.
-    </p>
-    <p>
-      Simply upload your file below, click "Extract Text," and watch as the AI OCR engine extracts your content in seconds.
-      Works for PDFs, JPG, PNG, BMP formats — copy, edit, or save your extracted text freely.
-    </p>
-  </div>
+  <!-- 🌐 NAVBAR -->
+  <header class="bg-white shadow-sm sticky top-0 z-50 dark:bg-slate-900">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+      <h1 class="text-2xl font-extrabold gradient-text">PDF Slayer AI</h1>
+      <nav class="space-x-6 text-sm font-medium">
+        <a href="#home" class="hover:text-blue-600 dark:hover:text-cyan-400">Home</a>
+        <a href="#tool" class="hover:text-blue-600 dark:hover:text-cyan-400">Tool</a>
+        <a href="#features" class="hover:text-blue-600 dark:hover:text-cyan-400">Features</a>
+        <a href="#about" class="hover:text-blue-600 dark:hover:text-cyan-400">About</a>
+      </nav>
+      <button id="toggleTheme" class="px-3 py-1 bg-gray-100 text-sm rounded-lg shadow hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-gray-100">🌙</button>
+    </div>
+  </header>
 
-  <input type="file" id="fileInput" multiple accept=".pdf,image/*">
-  <button id="extractBtn">Extract Text</button>
+  <!-- 🚀 HERO -->
+  <section id="home" class="bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-center py-24">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="text-5xl font-extrabold mb-4">Extract Text from PDFs & Images Instantly</h2>
+      <p class="text-lg mb-8 opacity-90">AI-powered OCR tool that works fast, securely, and supports multiple languages.</p>
+      <a href="#tool" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold shadow hover:scale-105 transition">Try It Now</a>
+    </div>
+  </section>
 
-  <div id="output">Extracted text will appear here...</div>
+  <!-- ⚙️ HOW IT WORKS -->
+  <section id="how" class="py-20 bg-white dark:bg-slate-900">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h3 class="text-3xl font-bold mb-10 gradient-text">How It Works</h3>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-lg dark:bg-slate-800">
+          <img src="https://img.icons8.com/fluency/48/upload.png" class="mx-auto mb-4" />
+          <h4 class="font-semibold mb-2 text-lg">1. Upload</h4>
+          <p>Choose a PDF or image from your device.</p>
+        </div>
+        <div class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-lg dark:bg-slate-800">
+          <img src="https://img.icons8.com/fluency/48/artificial-intelligence.png" class="mx-auto mb-4" />
+          <h4 class="font-semibold mb-2 text-lg">2. Process</h4>
+          <p>Our AI extracts text directly in your browser — secure and private.</p>
+        </div>
+        <div class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-lg dark:bg-slate-800">
+          <img src="https://img.icons8.com/fluency/48/copy.png" class="mx-auto mb-4" />
+          <h4 class="font-semibold mb-2 text-lg">3. Copy & Use</h4>
+          <p>Copy the extracted text or download it instantly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- Single red progress bar -->
-  <div id="progressContainer" style="width:100%;height:8px;background:#333;border-radius:5px;margin-top:10px;">
-    <div id="progressBar" style="width:0%;height:100%;background:#ff0000;border-radius:5px;transition:width 0.3s ease;"></div>
-  </div>
+  <!-- 🧩 TOOL -->
+  <section id="tool" class="bg-gray-50 py-20 dark:bg-slate-800">
+    <div class="max-w-3xl mx-auto px-6 text-center">
+      <h3 class="text-3xl font-bold mb-6 gradient-text">Try the OCR Tool</h3>
+      <p class="mb-8 text-gray-600 dark:text-gray-300">Upload a file and see AI in action — all locally processed for your privacy.</p>
 
-  <div class="adsense">
-    <!-- AdSense Unit -->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-2061223848415336"
-         data-ad-slot="9876543210"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-  </div>
-</div>
+      <div class="upload-box p-10 bg-white dark:bg-slate-900">
+        <input type="file" id="fileInput" class="mb-4 block mx-auto text-sm" accept=".pdf,.png,.jpg,.jpeg" />
+        <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition">Extract Text</button>
+        <p class="text-xs text-gray-500 mt-3">No files are uploaded — everything runs in your browser.</p>
+      </div>
 
-<footer>
-  <a href="about.html">About</a> |
-  <a href="privacy.html">Privacy Policy</a> |
-  <a href="terms.html">Terms & Conditions</a> |
-  <a href="mailto:contact@pdfslayer.com">Contact</a>
-</footer>
+      <div id="result" class="mt-10 p-6 bg-gray-100 rounded-lg text-left hidden dark:bg-slate-700"></div>
+    </div>
+  </section>
 
-<!-- PDF.js & Tesseract.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.9.179/pdf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
+  <!-- 💎 FEATURES -->
+  <section id="features" class="py-20 bg-white dark:bg-slate-900">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h3 class="text-3xl font-bold mb-12 gradient-text">Why Choose PDF Slayer AI?</h3>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-md dark:bg-slate-800">
+          <h4 class="font-semibold mb-2 text-lg">⚡ Lightning Fast</h4>
+          <p>Extracts text within seconds using optimized AI algorithms.</p>
+        </div>
+        <div class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-md dark:bg-slate-800">
+          <h4 class="font-semibold mb-2 text-lg">🔒 Private & Secure</h4>
+          <p>Runs fully in-browser — your data never leaves your device.</p>
+        </div>
+        <div class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-md dark:bg-slate-800">
+          <h4 class="font-semibold mb-2 text-lg">🌐 Multilingual</h4>
+          <p>Supports English, Hindi, and more languages coming soon.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<!-- Main script -->
-<script src="script.js"></script>
+  <!-- 🧠 ABOUT -->
+  <section id="about" class="py-20 bg-gray-50 dark:bg-slate-800">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h3 class="text-3xl font-bold mb-6 gradient-text">About PDF Slayer AI</h3>
+      <p class="text-gray-700 leading-relaxed max-w-3xl mx-auto dark:text-gray-300">
+        PDF Slayer AI was built to simplify how you handle scanned documents. Powered by cutting-edge Optical Character Recognition,
+        it lets you unlock text from PDFs and images without sacrificing privacy or speed. Whether you're a student, professional, or researcher — it just works.
+      </p>
+    </div>
+  </section>
 
+  <!-- 📞 FOOTER -->
+  <footer class="bg-blue-600 text-white py-10 text-center">
+    <h4 class="text-xl font-semibold mb-4">Get in Touch</h4>
+    <p>Email: <a href="mailto:contact@pdfslayer.ai" class="underline">contact@pdfslayer.ai</a></p>
+    <div class="mt-6 space-x-4 text-sm">
+      <a href="/about" class="underline">About</a>
+      <a href="/privacy" class="underline">Privacy Policy</a>
+      <a href="/terms" class="underline">Terms</a>
+    </div>
+    <p class="mt-6 text-sm opacity-80">© 2025 PDF Slayer AI — All Rights Reserved.</p>
+  </footer>
+
+  <!-- 🌙 Dark Mode Toggle Script -->
+  <script>
+    const toggleBtn = document.getElementById('toggleTheme');
+    toggleBtn.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      toggleBtn.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
+    });
+  </script>
 </body>
 </html>
