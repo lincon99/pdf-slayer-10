@@ -1,90 +1,61 @@
-// DARK MODE TOGGLE
-const themeToggle = document.getElementById('themeToggle');
-themeToggle.addEventListener('click', () => {
-  document.body.classList.toggle('dark-mode');
-  themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-});
-
-// OCR TOOL VARIABLES
 const fileInput = document.getElementById('fileInput');
 const extractBtn = document.getElementById('extractBtn');
-const progressContainer = document.getElementById('progressContainer');
-const progressBar = document.getElementById('progressBar');
-const outputContainer = document.getElementById('outputContainer');
 const output = document.getElementById('output');
-const copyBtn = document.getElementById('copyBtn');
-const downloadBtn = document.getElementById('downloadBtn');
-const uploadContainer = document.getElementById('uploadContainer');
+const progressBar = document.getElementById('progressBar');
 
-// DRAG & DROP EFFECTS
-uploadContainer.addEventListener('dragover', e => {
-  e.preventDefault();
-  uploadContainer.classList.add('drag-over');
-});
-uploadContainer.addEventListener('dragleave', e => {
-  e.preventDefault();
-  uploadContainer.classList.remove('drag-over');
-});
-uploadContainer.addEventListener('drop', e => {
-  e.preventDefault();
-  fileInput.files = e.dataTransfer.files;
-  uploadContainer.classList.remove('drag-over');
-});
-
-// OCR FUNCTION
 extractBtn.addEventListener('click', async () => {
-  if (!fileInput.files.length) {
-    alert("Please select a file first!");
-    return;
-  }
+    const files = fileInput.files;
+    if (!files.length) {
+        alert("Please select at least one PDF file.");
+        return;
+    }
 
-  const file = fileInput.files[0];
-  const url = URL.createObjectURL(file);
+    output.textContent = '';
+    progressBar.style.width = '0%';
 
-  outputContainer.classList.add('hidden');
-  progressContainer.classList.remove('hidden');
-  progressBar.style.width = '0%';
-  output.textContent = "";
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        output.textContent += `\n--- Extracting from: ${file.name} ---\n`;
 
-  try {
-    const worker = Tesseract.createWorker({
-      logger: m => {
-        if (m.status === 'recognizing text') {
-          const progress = Math.round(m.progress * 100);
-          progressBar.style.width = progress + '%';
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+        let fullText = '';
+
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+            const page = await pdf.getPage(pageNum);
+
+            // Try extracting text normally
+            const textContent = await page.getTextContent();
+            const pageText = textContent.items.map(item => item.str).join(' ');
+
+            if (pageText.trim().length > 0) {
+                fullText += pageText + '\n';
+            } else {
+                // Page is likely scanned, use OCR
+                const viewport = page.getViewport({ scale: 2 });
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                await page.render({ canvasContext: context, viewport: viewport }).promise;
+
+                const { data: { text } } = await Tesseract.recognize(canvas, 'eng', {
+                    logger: m => {
+                        if (m.status === 'recognizing text') {
+                            progressBar.style.width = `${Math.round((i + m.progress) / files.length * 100)}%`;
+                        }
+                    }
+                });
+
+                fullText += text + '\n';
+            }
         }
-      }
-    });
 
-    await worker.load();
-    await worker.loadLanguage('eng');
-    await worker.initialize('eng');
+        output.textContent += fullText;
+        progressBar.style.width = `${Math.round((i + 1) / files.length * 100)}%`;
+    }
 
-    const { data: { text } } = await worker.recognize(url);
-    await worker.terminate();
-
-    progressContainer.classList.add('hidden');
-    outputContainer.classList.remove('hidden');
-    output.textContent = text || "No text detected!";
-  } catch (err) {
-    progressContainer.classList.add('hidden');
-    alert("Error during OCR: " + err.message);
-  }
-});
-
-// COPY TEXT
-copyBtn.addEventListener('click', () => {
-  navigator.clipboard.writeText(output.textContent).then(() => {
-    alert("Text copied to clipboard!");
-  });
-});
-
-// DOWNLOAD TEXT
-downloadBtn.addEventListener('click', () => {
-  const blob = new Blob([output.textContent], { type: 'text/plain' });
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = "extracted_text.txt";
-  link.click();
-  URL.revokeObjectURL(link.href);
+    alert("Text extraction completed!");
 });
