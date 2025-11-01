@@ -1,90 +1,90 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const fileInput = document.getElementById("fileInput");
-  const extractBtn = document.getElementById("extractBtn");
-  const output = document.getElementById("output");
+// DARK MODE TOGGLE
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+});
 
-  // Create single smooth progress bar
-  const progressContainer = document.createElement("div");
-  const progressBar = document.createElement("div");
+// OCR TOOL VARIABLES
+const fileInput = document.getElementById('fileInput');
+const extractBtn = document.getElementById('extractBtn');
+const progressContainer = document.getElementById('progressContainer');
+const progressBar = document.getElementById('progressBar');
+const outputContainer = document.getElementById('outputContainer');
+const output = document.getElementById('output');
+const copyBtn = document.getElementById('copyBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+const uploadContainer = document.getElementById('uploadContainer');
 
-  progressContainer.style.width = "100%";
-  progressContainer.style.height = "8px";
-  progressContainer.style.backgroundColor = "#333";
-  progressContainer.style.borderRadius = "5px";
-  progressContainer.style.marginTop = "10px";
+// DRAG & DROP EFFECTS
+uploadContainer.addEventListener('dragover', e => {
+  e.preventDefault();
+  uploadContainer.classList.add('drag-over');
+});
+uploadContainer.addEventListener('dragleave', e => {
+  e.preventDefault();
+  uploadContainer.classList.remove('drag-over');
+});
+uploadContainer.addEventListener('drop', e => {
+  e.preventDefault();
+  fileInput.files = e.dataTransfer.files;
+  uploadContainer.classList.remove('drag-over');
+});
 
-  progressBar.style.width = "0%";
-  progressBar.style.height = "100%";
-  progressBar.style.backgroundColor = "#ff0000";
-  progressBar.style.borderRadius = "5px";
-  progressBar.style.transition = "width 0.2s linear";
-
-  progressContainer.appendChild(progressBar);
-  output.before(progressContainer);
-
-  extractBtn.addEventListener("click", async () => {
-    const files = fileInput.files;
-    if (!files.length) return alert("Please select a PDF or image file first.");
-
-    output.textContent = "Extracting text... Please wait.";
-    progressBar.style.width = "5%";
-
-    for (const file of files) {
-      const ext = file.name.split(".").pop().toLowerCase();
-      let text = "";
-
-      if (ext === "pdf") text = await extractTextFromPDF(file);
-      else if (["jpg","jpeg","png","bmp"].includes(ext)) text = await extractTextFromImage(file);
-      else { alert(`Unsupported file type: ${ext}`); continue; }
-
-      output.textContent += `\n\n---- ${file.name} ----\n${text}`;
-    }
-
-    progressBar.style.width = "100%";
-    setTimeout(() => (progressBar.style.width = "0%"), 1500);
-  });
-
-  async function extractTextFromImage(file) {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        Tesseract.recognize(reader.result, "eng+hin", {
-          logger: info => {
-            if (info.status === "recognizing text") {
-              progressBar.style.width = `${Math.min(Math.max(Math.round(info.progress*100), parseInt(progressBar.style.width)),100)}%`;
-            }
-          }
-        }).then(({ data: { text } }) => resolve(text));
-      };
-      reader.readAsDataURL(file);
-    });
+// OCR FUNCTION
+extractBtn.addEventListener('click', async () => {
+  if (!fileInput.files.length) {
+    alert("Please select a file first!");
+    return;
   }
 
-  async function extractTextFromPDF(file) {
-    const pdfData = new Uint8Array(await file.arrayBuffer());
-    const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
-    let fullText = "";
+  const file = fileInput.files[0];
+  const url = URL.createObjectURL(file);
 
-    for (let i=1;i<=pdf.numPages;i++) {
-      const page = await pdf.getPage(i);
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      const viewport = page.getViewport({ scale: 2.0 });
-      canvas.height = viewport.height;
-      canvas.width = viewport.width;
-      await page.render({ canvasContext: ctx, viewport }).promise;
+  outputContainer.classList.add('hidden');
+  progressContainer.classList.remove('hidden');
+  progressBar.style.width = '0%';
+  output.textContent = "";
 
-      const imageData = canvas.toDataURL("image/png");
-      const text = await Tesseract.recognize(imageData,"eng+hin",{
-        logger: info => {
-          if(info.status==="recognizing text") {
-            const progress = ((i-1)/pdf.numPages + info.progress/pdf.numPages)*100;
-            progressBar.style.width = `${Math.min(Math.max(Math.round(progress), parseInt(progressBar.style.width)),100)}%`;
-          }
+  try {
+    const worker = Tesseract.createWorker({
+      logger: m => {
+        if (m.status === 'recognizing text') {
+          const progress = Math.round(m.progress * 100);
+          progressBar.style.width = progress + '%';
         }
-      }).then(r=>r.data.text);
-      fullText += `\n[Page ${i}]\n${text}`;
-    }
-    return fullText;
+      }
+    });
+
+    await worker.load();
+    await worker.loadLanguage('eng');
+    await worker.initialize('eng');
+
+    const { data: { text } } = await worker.recognize(url);
+    await worker.terminate();
+
+    progressContainer.classList.add('hidden');
+    outputContainer.classList.remove('hidden');
+    output.textContent = text || "No text detected!";
+  } catch (err) {
+    progressContainer.classList.add('hidden');
+    alert("Error during OCR: " + err.message);
   }
+});
+
+// COPY TEXT
+copyBtn.addEventListener('click', () => {
+  navigator.clipboard.writeText(output.textContent).then(() => {
+    alert("Text copied to clipboard!");
+  });
+});
+
+// DOWNLOAD TEXT
+downloadBtn.addEventListener('click', () => {
+  const blob = new Blob([output.textContent], { type: 'text/plain' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = "extracted_text.txt";
+  link.click();
+  URL.revokeObjectURL(link.href);
 });
